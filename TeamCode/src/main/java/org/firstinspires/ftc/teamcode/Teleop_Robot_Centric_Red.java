@@ -109,10 +109,6 @@ public class Teleop_Robot_Centric_Red extends LinearOpMode {
                   ,new CMD_HandleReadyToIntake(m_robot)
           ));
 
-          AddButtonCommand(m_driverOp, GamepadKeys.Button.START, new CMD_Climb(m_robot.GlobalVariables, m_robot.m_climb));
-          AddButtonCommand(m_driverOp, GamepadKeys.Button.BACK, new CMD_ResetToHome(m_robot.GlobalVariables,
-                  m_robot.m_bucketLift, m_robot.m_intakeSubSlide, m_robot.m_bucket, m_robot.m_subIntake));
-
           AddButtonCommand(m_driverOp, GamepadKeys.Button.DPAD_LEFT, new ConditionalCommand(
              new InstantCommand(()-> m_robot.m_intakeSubSlide.extend())
              ,new InstantCommand()
@@ -127,8 +123,16 @@ public class Teleop_Robot_Centric_Red extends LinearOpMode {
                   && m_robot.GlobalVariables.isIntakeState(GlobalVariables.IntakeState.SUBMERSIBLE)
           ));
 
-          AddButtonCommand(m_driverOp, GamepadKeys.Button.DPAD_DOWN, new CMD_HandleException(m_robot));
-          AddButtonCommand(m_driverOp, GamepadKeys.Button.DPAD_UP, new InstantCommand(()-> m_robot.m_bucketLift.setTargetPosition(1000)));
+          //toolOp
+          AddButtonCommand(m_toolOp, GamepadKeys.Button.A, new CMD_Climb(m_robot.GlobalVariables, m_robot.m_climb));
+          AddButtonCommand(m_driverOp, GamepadKeys.Button.B, new CMD_ResetToHome(m_robot.GlobalVariables,
+                  m_robot.m_bucketLift, m_robot.m_intakeSubSlide, m_robot.m_bucket, m_robot.m_subIntake));
+          AddButtonCommand(m_driverOp, GamepadKeys.Button.X, new CMD_HandleException(m_robot));
+          AddButtonCommand(m_driverOp, GamepadKeys.Button.Y, new ConditionalCommand(
+               new InstantCommand(()-> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketDeploy))
+               ,new InstantCommand(()-> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome))
+               ,()-> m_robot.m_bucket.isBucketHome()
+          ));
      }
 
      public void setSide() {

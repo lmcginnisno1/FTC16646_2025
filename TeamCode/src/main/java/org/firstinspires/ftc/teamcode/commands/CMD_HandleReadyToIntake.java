@@ -36,8 +36,8 @@ public class CMD_HandleReadyToIntake extends CommandBase {
 
         if(m_robot.GlobalVariables.isRobotState(GlobalVariables.RobotState.INTAKE)){
             m_robot.schedule(
-                new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide,
-                    m_robot.m_subIntake, m_robot.m_bucket)
+                new CMD_Stow(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake,
+                    m_robot.m_bucket, m_robot.m_bucketLift)
             );
         }
     }

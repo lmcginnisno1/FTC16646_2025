@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import org.firstinspires.ftc.teamcode.GlobalVariables;
 import org.firstinspires.ftc.teamcode.subsystems.*;
 import org.firstinspires.ftc.teamcode.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.ftclib.gamepad.GamepadEx;
@@ -17,13 +18,14 @@ public class RR_MecanumDriveDefault extends CommandBase {
     private GamepadEx m_driverOP = null;
     private double m_driverOffsetAngle = 0;
     private double m_joystickMin = 0.02;
+    GlobalVariables m_variables;
     public RR_MecanumDriveDefault(MecanumDriveSubsystem p_drive, GamepadEx driverOp,
-                                  double driverOffsetAngle, double joystickMin) {
+                                  double driverOffsetAngle, double joystickMin, GlobalVariables p_variables) {
         m_drivetrain = p_drive;
         m_driverOP = driverOp; // gamepad of driver
         m_driverOffsetAngle = driverOffsetAngle;
         m_joystickMin = joystickMin;
-
+        m_variables = p_variables;
         addRequirements(m_drivetrain);
     }
 
@@ -55,14 +57,17 @@ public class RR_MecanumDriveDefault extends CommandBase {
         leftX = Range.clip(leftX * R / factor, -1, 1);
         leftY = Range.clip(leftY * R / factor, -1, 1);
 
-        final double slowMax = 0.6;
+        final double slowMax = 0.5;
         double slowMo = m_driverOP.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
+        if(m_variables.isRobotState(GlobalVariables.RobotState.READY_TO_INTAKE) &&
+                m_variables.isIntakeState(GlobalVariables.IntakeState.SUBMERSIBLE)){
+            slowMo = 1;
+        }
         if (slowMo > slowMax) {
             speed *= slowMax / slowMo;
             strafe *= slowMax * 1.5 / slowMo;
             turn *= slowMax / slowMo;
         }
-
         // m_Odometry.telemetry.addData("drive: ", "leftY: %.2f, speed: %.2f, leftX: %.2f, strafe: %.2f", leftY, speed, leftX, strafe);
 
         // positive strafe, move to the right

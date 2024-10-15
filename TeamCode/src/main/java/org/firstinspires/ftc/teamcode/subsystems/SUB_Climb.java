@@ -16,7 +16,6 @@ public class SUB_Climb extends SubsystemBase {
         m_climbMotor = m_opMode.hardwareMap.get(DcMotorEx.class, "leftClimb");
         m_climbMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m_climbMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        m_climbMotor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void climb(){

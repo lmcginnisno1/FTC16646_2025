@@ -13,6 +13,6 @@ public class CMD_BucketLiftInPosition extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        return m_bucketLift.atPosition();
+        return Math.abs(m_bucketLift.getTargetPosition()) - m_bucketLift.getCurrentPosition() <= BucketLift.kLiftTolerance;
     }
 }

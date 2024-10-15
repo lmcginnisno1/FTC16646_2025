@@ -76,11 +76,11 @@ public class Teleop_Robot_Centric_Red extends LinearOpMode {
 
           //drivetrain initialization
           m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toDegrees(0)));
-          m_robot.drivetrain.setFieldCentric(false);
+          m_robot.drivetrain.setFieldCentric(true);
           m_robot.drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-          m_robot.drivetrain.setDefaultCommand(new RR_MecanumDriveDefault(m_robot.drivetrain, m_driverOp,0.0,0.01));
+          m_robot.drivetrain.setDefaultCommand(new RR_MecanumDriveDefault(m_robot.drivetrain, m_driverOp,90.0,0.01, m_robot.GlobalVariables));
           //button bindings and global variables initialization
-          m_robot.m_intakeSubSlide.setDefaultCommand(new CMD_SubSlideDefault(m_driverOp, m_robot.GlobalVariables, m_robot.m_intakeSubSlide));
+//          m_robot.m_intakeSubSlide.setDefaultCommand(new CMD_SubSlideDefault(m_driverOp, m_robot.GlobalVariables, m_robot.m_intakeSubSlide));
           configureButtonBindings();
      }
 
@@ -113,19 +113,19 @@ public class Teleop_Robot_Centric_Red extends LinearOpMode {
           AddButtonCommand(m_driverOp, GamepadKeys.Button.BACK, new CMD_ResetToHome(m_robot.GlobalVariables,
                   m_robot.m_bucketLift, m_robot.m_intakeSubSlide, m_robot.m_bucket, m_robot.m_subIntake));
 
-//          AddButtonCommand(m_driverOp, GamepadKeys.Button.DPAD_LEFT, new ConditionalCommand(
-////             new InstantCommand(()-> m_robot.m_intakeSubSlide.extend())
-////             ,new InstantCommand()
-////             ,()-> m_robot.GlobalVariables.isRobotState(GlobalVariables.RobotState.READY_TO_INTAKE)
-////                  && m_robot.GlobalVariables.isIntakeState(GlobalVariables.IntakeState.SUBMERSIBLE)
-////          ));
-////
-////          AddButtonCommand(m_driverOp, GamepadKeys.Button.DPAD_RIGHT, new ConditionalCommand(
-////                  new InstantCommand(()-> m_robot.m_intakeSubSlide.retract())
-////                  ,new InstantCommand()
-////                  ,()-> m_robot.GlobalVariables.isRobotState(GlobalVariables.RobotState.READY_TO_INTAKE)
-////                  && m_robot.GlobalVariables.isIntakeState(GlobalVariables.IntakeState.SUBMERSIBLE)
-////          ));
+          AddButtonCommand(m_driverOp, GamepadKeys.Button.DPAD_LEFT, new ConditionalCommand(
+             new InstantCommand(()-> m_robot.m_intakeSubSlide.extend())
+             ,new InstantCommand()
+             ,()-> m_robot.GlobalVariables.isRobotState(GlobalVariables.RobotState.READY_TO_INTAKE)
+                  && m_robot.GlobalVariables.isIntakeState(GlobalVariables.IntakeState.SUBMERSIBLE)
+          ));
+
+          AddButtonCommand(m_driverOp, GamepadKeys.Button.DPAD_RIGHT, new ConditionalCommand(
+                  new InstantCommand(()-> m_robot.m_intakeSubSlide.retract())
+                  ,new InstantCommand()
+                  ,()-> m_robot.GlobalVariables.isRobotState(GlobalVariables.RobotState.READY_TO_INTAKE)
+                  && m_robot.GlobalVariables.isIntakeState(GlobalVariables.IntakeState.SUBMERSIBLE)
+          ));
 
           AddButtonCommand(m_driverOp, GamepadKeys.Button.DPAD_DOWN, new CMD_HandleException(m_robot));
           AddButtonCommand(m_driverOp, GamepadKeys.Button.DPAD_UP, new InstantCommand(()-> m_robot.m_bucketLift.setTargetPosition(1000)));

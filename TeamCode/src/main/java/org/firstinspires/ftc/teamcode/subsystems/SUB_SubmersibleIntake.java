@@ -32,7 +32,7 @@ public class SUB_SubmersibleIntake extends SubsystemBase {
 
     public void setIntakeSpeed(double p_speed){
         m_subIntakeServo.setPower(p_speed);
-        if(p_speed < 0){
+        if(p_speed > 0){
             m_intaking = true;
         }else{
             m_intaking = false;

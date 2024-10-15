@@ -18,7 +18,7 @@ public class SUB_IntakeSubSlide extends SubsystemBase {
         m_intakeSubSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         m_intakeSubSlide.setTargetPosition(0);
         m_intakeSubSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        m_intakeSubSlide.setPower(0.75);
+        m_intakeSubSlide.setPower(1);
     }
 
     public void setTargetPosition(int p_pos){

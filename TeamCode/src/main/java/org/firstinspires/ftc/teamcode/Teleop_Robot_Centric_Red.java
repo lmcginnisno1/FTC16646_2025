@@ -87,6 +87,8 @@ public class Teleop_Robot_Centric_Red extends LinearOpMode {
      public void configureButtonBindings() {
           AddButtonCommand(m_driverOp, GamepadKeys.Button.LEFT_BUMPER, new CMD_HandleReadyToIntake(m_robot));
           AddButtonCommand(m_driverOp, GamepadKeys.Button.RIGHT_BUMPER, new CMD_HandleReadyToDeploy(m_robot));
+          AddButtonCommand(m_driverOp, GamepadKeys.Button.BACK, new CMD_ResetToHome(m_robot.GlobalVariables,
+                  m_robot.m_bucketLift, m_robot.m_intakeSubSlide, m_robot.m_bucket, m_robot.m_subIntake));
 
           AddButtonCommand(m_driverOp, GamepadKeys.Button.A, new ConditionalCommand(
                new InstantCommand(()-> m_robot.m_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOff))
@@ -125,14 +127,15 @@ public class Teleop_Robot_Centric_Red extends LinearOpMode {
 
           //toolOp
           AddButtonCommand(m_toolOp, GamepadKeys.Button.A, new CMD_Climb(m_robot.GlobalVariables, m_robot.m_climb));
-          AddButtonCommand(m_driverOp, GamepadKeys.Button.B, new CMD_ResetToHome(m_robot.GlobalVariables,
+          AddButtonCommand(m_toolOp, GamepadKeys.Button.B, new CMD_ResetToHome(m_robot.GlobalVariables,
                   m_robot.m_bucketLift, m_robot.m_intakeSubSlide, m_robot.m_bucket, m_robot.m_subIntake));
-          AddButtonCommand(m_driverOp, GamepadKeys.Button.X, new CMD_HandleException(m_robot));
-          AddButtonCommand(m_driverOp, GamepadKeys.Button.Y, new ConditionalCommand(
+          AddButtonCommand(m_toolOp, GamepadKeys.Button.X, new CMD_HandleException(m_robot));
+          AddButtonCommand(m_toolOp, GamepadKeys.Button.Y, new ConditionalCommand(
                new InstantCommand(()-> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketDeploy))
                ,new InstantCommand(()-> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome))
                ,()-> m_robot.m_bucket.isBucketHome()
           ));
+          AddButtonCommand(m_toolOp, GamepadKeys.Button.BACK, new InstantCommand(()-> m_robot.m_subIntake.setIntakeSpeed(-1)));
      }
 
      public void setSide() {

@@ -16,7 +16,7 @@ public class SUB_Bucket extends SubsystemBase {
 
     public void setBucketServoPosition(double p_pos) {
         m_bucketServo.setPosition(p_pos);
-        if (p_pos <= 0) {
+        if (p_pos == BucketConstants.kBucketHome) {
             m_bucketHome = true;
         } else {
             m_bucketHome = false;

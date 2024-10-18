@@ -59,8 +59,7 @@ public class RR_MecanumDriveDefault extends CommandBase {
 
         final double slowMax = 0.5;
         double slowMo = m_driverOP.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
-        if(m_variables.isRobotState(GlobalVariables.RobotState.READY_TO_INTAKE) &&
-                m_variables.isIntakeState(GlobalVariables.IntakeState.SUBMERSIBLE)){
+        if(m_variables.isRobotState(GlobalVariables.RobotState.READY_TO_INTAKE)){
             slowMo = 1;
         }
         if (slowMo > slowMax) {

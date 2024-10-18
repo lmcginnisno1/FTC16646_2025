@@ -35,12 +35,12 @@ public class SUB_IntakeSubSlide extends SubsystemBase {
 
     public void extend(){
         if(getTargetPosition() < Constants.SubmersibleSlide.kSlideMaxExtend){
-            m_intakeSubSlide.setTargetPosition(getTargetPosition() + 50);
+            m_intakeSubSlide.setTargetPosition(Constants.SubmersibleSlide.kSlideMaxExtend);
         }
     }
     public void retract(){
         if(getTargetPosition() > Constants.SubmersibleSlide.kSlideHome){
-            m_intakeSubSlide.setTargetPosition(getTargetPosition() - 50);
+            m_intakeSubSlide.setTargetPosition(1000);
         }
     }
 

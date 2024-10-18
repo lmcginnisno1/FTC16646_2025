@@ -38,7 +38,7 @@ public class SUB_BucketLift extends SubsystemBase {
         m_leftBucketLiftMotor.setTargetPosition(p_pos);
         m_rightBucketLiftMotor.setTargetPosition(p_pos);
         m_leftBucketLiftMotor.setPower(1);
-        m_rightBucketLiftMotor.setTargetPosition(1);
+        m_rightBucketLiftMotor.setPower(1);
     }
 
     public int getCurrentPosition(){

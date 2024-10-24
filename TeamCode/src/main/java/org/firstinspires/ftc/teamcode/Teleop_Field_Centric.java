@@ -8,11 +8,8 @@ import org.firstinspires.ftc.teamcode.commands.*;
 
 import org.firstinspires.ftc.teamcode.ftclib.command.ConditionalCommand;
 import org.firstinspires.ftc.teamcode.ftclib.command.InstantCommand;
-import org.firstinspires.ftc.teamcode.ftclib.command.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.ftclib.command.SequentialCommandGroup;
-import org.firstinspires.ftc.teamcode.ftclib.command.WaitCommand;
 import org.firstinspires.ftc.teamcode.ftclib.command.button.GamepadButton;
-import org.firstinspires.ftc.teamcode.ftclib.first.math.trajectory.TrapezoidProfile;
 import org.firstinspires.ftc.teamcode.ftclib.gamepad.GamepadEx;
 import org.firstinspires.ftc.teamcode.ftclib.gamepad.GamepadKeys;
 import org.firstinspires.ftc.teamcode.ftclib.command.Command;
@@ -21,12 +18,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "Teleop Red", group ="Teleop Red")
-public class Teleop_Robot_Centric_Red extends LinearOpMode {
+public class Teleop_Field_Centric extends LinearOpMode {
 
      public RobotContainer m_robot;
      private GamepadEx m_driverOp;
      private GamepadEx m_toolOp;
      private boolean m_setFieldCentric = false;
+     double m_startHeadingOffset = Math.toRadians(90);
 
      private static ElapsedTime m_runTime = new ElapsedTime();
      private ElapsedTime m_releaseTimeout = new ElapsedTime();
@@ -75,10 +73,9 @@ public class Teleop_Robot_Centric_Red extends LinearOpMode {
           setSide();
 
           //drivetrain initialization
-          m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toDegrees(0)));
           m_robot.drivetrain.setFieldCentric(true);
           m_robot.drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-          m_robot.drivetrain.setDefaultCommand(new RR_MecanumDriveDefault(m_robot.drivetrain, m_driverOp,90.0,0.01, m_robot.GlobalVariables));
+          m_robot.drivetrain.setDefaultCommand(new RR_MecanumDriveDefault(m_robot.drivetrain, m_driverOp,0.0,0.01, m_robot.GlobalVariables));
           //button bindings and global variables initialization
 //          m_robot.m_intakeSubSlide.setDefaultCommand(new CMD_SubSlideDefault(m_driverOp, m_robot.GlobalVariables, m_robot.m_intakeSubSlide));
           configureButtonBindings();
@@ -136,10 +133,13 @@ public class Teleop_Robot_Centric_Red extends LinearOpMode {
                ,()-> m_robot.m_bucket.isBucketHome()
           ));
           AddButtonCommand(m_toolOp, GamepadKeys.Button.BACK, new InstantCommand(()-> m_robot.m_subIntake.setIntakeSpeed(-1)));
+          AddButtonCommand(m_toolOp, GamepadKeys.Button.START, new InstantCommand(()-> m_robot.m_climb.reset()));
+          AddButtonCommand(m_toolOp, GamepadKeys.Button.LEFT_BUMPER, new InstantCommand(()-> m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(90)))));
      }
 
      public void setSide() {
           m_robot.setRedSide();
+          m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(135)));
      }
 
      public void AddButtonCommand(GamepadEx gamepad, GamepadKeys.Button button, Command command) {

@@ -24,6 +24,12 @@ public class SUB_Climb extends SubsystemBase {
         m_climbMotor.setPower(1);
     }
 
+    public void reset(){
+        m_climbMotor.setTargetPosition(0);
+        m_climbMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        m_climbMotor.setPower(1);
+    }
+
     @Override
     public void periodic(){
         m_opMode.telemetry.addData("climb pos", m_climbMotor.getCurrentPosition());

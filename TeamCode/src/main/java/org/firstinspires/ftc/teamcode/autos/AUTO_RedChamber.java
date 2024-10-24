@@ -6,8 +6,10 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.GlobalVariables;
 import org.firstinspires.ftc.teamcode.Robot_Auto;
 import org.firstinspires.ftc.teamcode.commands.CMD_DeployChamber;
+import org.firstinspires.ftc.teamcode.commands.CMD_IntakeWall;
 import org.firstinspires.ftc.teamcode.commands.CMD_ReadyToDeployChamber;
 import org.firstinspires.ftc.teamcode.commands.CMD_ReadyToIntakeWall;
 import org.firstinspires.ftc.teamcode.commands.RR_TrajectoryFollowerCommand;
@@ -32,7 +34,7 @@ public class AUTO_RedChamber extends Robot_Auto {
     public void prebuildTasks() {
         setStartingPose(new Pose2d(0, -63, Math.toRadians(90)));
         m_placeChamberOne = m_robot.drivetrain.trajectoryBuilder(getStartingPose(), false)
-                .lineToLinearHeading(new Pose2d(0, -33.75, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(0, -33.25, Math.toRadians(90)))
                 .build();
         m_releaseChamber = m_robot.drivetrain.trajectoryBuilder(m_placeChamberOne.end(), true)
                 .back(6)
@@ -42,7 +44,7 @@ public class AUTO_RedChamber extends Robot_Auto {
                 .splineTo(new Vector2d(32, -12), Math.toRadians(90))
                 .build();
         m_strafeFrontSampleOne = m_robot.drivetrain.trajectoryBuilder(m_lineUpGroundSampleOne.end(), false)
-                .strafeLeft(16)
+                .strafeLeft(14)
                 .build();
         m_pushSampleOne = m_robot.drivetrain.trajectoryBuilder(m_strafeFrontSampleOne.end(), false)
                 .lineToLinearHeading(new Pose2d(50, -60, Math.toRadians(-90)))
@@ -51,10 +53,10 @@ public class AUTO_RedChamber extends Robot_Auto {
                 .lineToLinearHeading(new Pose2d(48, -45, Math.toRadians(-90)))
                 .build();
         m_intakeSpecimenOne = m_robot.drivetrain.trajectoryBuilder(m_backUpSampleOne.end(), false)
-                .lineToLinearHeading(new Pose2d(48, -62, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(48, -61, Math.toRadians(-90)))
                 .build();
         m_lineUpChamber = m_robot.drivetrain.trajectoryBuilder(m_intakeSpecimenOne.end(), true)
-                .back(10)
+                .splineTo(new Vector2d(56, -45), Math.toRadians(45))
                 .build();
         m_splineToChamber = m_robot.drivetrain.trajectoryBuilder(m_lineUpChamber.end(), false)
                 .splineTo(new Vector2d(24, -48), Math.toRadians(180))
@@ -83,7 +85,7 @@ public class AUTO_RedChamber extends Robot_Auto {
                     ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_placeChamberOne)
                 )
             )
-            ,new WaitCommand(1000)
+            ,new WaitCommand(500)
             ,new InstantCommand(()-> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftDeployHighChamber))
             ,new WaitCommand(500)
             ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_releaseChamber)
@@ -100,7 +102,10 @@ public class AUTO_RedChamber extends Robot_Auto {
             ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_pushSampleOne)
             ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_backUpSampleOne)
             ,new CMD_ReadyToIntakeWall(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_bucket)
+            ,new WaitCommand(2000)
             ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_intakeSpecimenOne)
+            ,new WaitCommand(750)
+            ,new CMD_IntakeWall(m_robot.GlobalVariables, m_robot.m_bucketLift)
             ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_lineUpChamber)
         );
         return cmds;

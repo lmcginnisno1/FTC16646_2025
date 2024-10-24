@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.GlobalVariables;
 import org.firstinspires.ftc.teamcode.Robot_Auto;
 import org.firstinspires.ftc.teamcode.commands.CMD_BucketLiftReset;
 import org.firstinspires.ftc.teamcode.commands.CMD_DeployBucket;
@@ -50,7 +51,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .build();
 
         Trajectory lineUpFirstGroundSample = m_robot.drivetrain.trajectoryBuilder(moveToBasket.end(), true)
-                .lineToLinearHeading(new Pose2d(-48, -52, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-48, -52, Math.toRadians(-95)))
                 .build();
 
         Trajectory driveIntoSample = m_robot.drivetrain.trajectoryBuilder(lineUpFirstGroundSample.end(), true)
@@ -78,7 +79,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .build();
 
         Trajectory driveIntoFourthSample = m_robot.drivetrain.trajectoryBuilder(lineUpFourthSample.end(), true)
-                .lineToLinearHeading(new Pose2d(-52, -30, Math.toRadians(-20)))
+                .lineToLinearHeading(new Pose2d(-53, -31, Math.toRadians(-20)))
                 .build();
 
         Trajectory scoreFourthSample = m_robot.drivetrain.trajectoryBuilder(driveIntoFourthSample.end(), false)

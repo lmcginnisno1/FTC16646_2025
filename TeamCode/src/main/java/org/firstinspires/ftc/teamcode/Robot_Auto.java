@@ -9,6 +9,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import java.util.concurrent.TimeUnit;
+
 public abstract class Robot_Auto extends LinearOpMode {
 
      public RobotContainer m_robot;
@@ -47,20 +49,18 @@ public abstract class Robot_Auto extends LinearOpMode {
 
           while (!isStopRequested() && opModeIsActive()) {
                m_robot.run(); // run the scheduler
-
                m_robot.drivetrain.update();
                Pose2d poseEstimate = m_robot.drivetrain.getPoseEstimate();
+               GlobalVariables.m_autonomousEndPose = poseEstimate;
                telemetry.addData("ODM","x[%3.2f] y[%3.2f] heading(%3.2f)", poseEstimate.getX(), poseEstimate.getY(), Math.toDegrees(poseEstimate.getHeading()));
                telemetry.update();
           }
 
-          GlobalVariables.m_autonomousEndPose = m_robot.drivetrain.getPoseEstimate();
           endOfOpMode();
           m_robot.reset();
      }
 
      public void endOfOpMode() {
-
      }
 
      public void initializeSubsystems() {

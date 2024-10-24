@@ -57,7 +57,7 @@ public class RR_MecanumDriveDefault extends CommandBase {
         leftX = Range.clip(leftX * R / factor, -1, 1);
         leftY = Range.clip(leftY * R / factor, -1, 1);
 
-        final double slowMax = 0.5;
+        final double slowMax = 0.33;
         double slowMo = m_driverOP.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
         if(m_variables.isRobotState(GlobalVariables.RobotState.READY_TO_INTAKE)){
             slowMo = 1;

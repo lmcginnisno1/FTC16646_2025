@@ -51,9 +51,9 @@ public class SUB_BucketLift extends SubsystemBase {
 
     public void startReset(){
         m_leftBucketLiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        m_leftBucketLiftMotor.setPower(-.5);
+        m_leftBucketLiftMotor.setPower(-1.0);
         m_rightBucketLiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        m_rightBucketLiftMotor.setPower(-.5);
+        m_rightBucketLiftMotor.setPower(-1.0);
     }
 
     public void resetEncoder(){

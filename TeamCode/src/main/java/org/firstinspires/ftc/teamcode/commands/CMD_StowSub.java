@@ -15,7 +15,7 @@ public class CMD_StowSub extends SequentialCommandGroup {
             ,new InstantCommand(()-> p_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOff))
             ,new InstantCommand(()-> p_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome))
             ,new InstantCommand(()-> p_subIntake.setBucketPosition(Constants.SubIntakeConstants.kBucketHome))
-            ,new InstantCommand(()-> p_intakeSubSlide.setTargetPosition(Constants.SubmersibleSlide.kSlideHome))
+            ,new CMD_SubSlideReset(p_intakeSubSlide)
             ,new InstantCommand(()-> p_variables.setRobotState(GlobalVariables.RobotState.STOW)));
     }
 }

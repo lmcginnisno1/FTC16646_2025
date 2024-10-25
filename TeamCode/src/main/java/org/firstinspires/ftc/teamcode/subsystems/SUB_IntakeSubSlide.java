@@ -23,6 +23,7 @@ public class SUB_IntakeSubSlide extends SubsystemBase {
 
     public void setTargetPosition(int p_pos){
         m_intakeSubSlide.setTargetPosition(p_pos);
+        m_intakeSubSlide.setPower(1);
     }
 
     public int getTargetPosition(){
@@ -39,21 +40,21 @@ public class SUB_IntakeSubSlide extends SubsystemBase {
         }
     }
     public void retract(){
-        if(getTargetPosition() > Constants.SubmersibleSlide.kSlideHome){
+        if(getTargetPosition() > 1000){
             m_intakeSubSlide.setTargetPosition(1000);
         }
     }
 
     public void startReset(){
         m_intakeSubSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        m_intakeSubSlide.setPower(-.5);
+        m_intakeSubSlide.setPower(-1);
     }
 
     public void resetEncoder(){
         m_intakeSubSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         m_intakeSubSlide.setTargetPosition(5);
         m_intakeSubSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        m_intakeSubSlide.setPower(1);
+        m_intakeSubSlide.setPower(0);
     }
 
     @Override

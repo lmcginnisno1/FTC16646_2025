@@ -64,7 +64,7 @@ public class RR_MecanumDriveDefault extends CommandBase {
         }
         if (slowMo > slowMax) {
             speed *= slowMax / slowMo;
-            strafe *= slowMax * 1.5 / slowMo;
+            strafe *= slowMax / slowMo;
             turn *= slowMax / slowMo;
         }
         // m_Odometry.telemetry.addData("drive: ", "leftY: %.2f, speed: %.2f, leftX: %.2f, strafe: %.2f", leftY, speed, leftX, strafe);

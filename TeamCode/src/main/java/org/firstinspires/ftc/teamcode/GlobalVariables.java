@@ -37,7 +37,7 @@ public class GlobalVariables {
           ,SUBMERSIBLE
      }
 
-     IntakeState m_intakeState = IntakeState.WALL;
+     IntakeState m_intakeState = IntakeState.SUBMERSIBLE;
 
      public IntakeState getIntakeState(){
           return m_intakeState;

@@ -15,6 +15,7 @@ public class CMD_ReadyToIntakeSub extends SequentialCommandGroup {
                 ,new InstantCommand(()-> p_subIntake.setBucketPosition(Constants.SubIntakeConstants.kBucketReadyToIntake))
                 ,new InstantCommand(()-> p_subSlide.setTargetPosition(Constants.SubmersibleSlide.kSlideIntake))
                 ,new CMD_SubmersibleInPosition(p_subSlide)
+                ,new InstantCommand(()-> p_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOn))
                 ,new InstantCommand(()-> p_variables.setRobotState(GlobalVariables.RobotState.READY_TO_INTAKE))
         );
     }

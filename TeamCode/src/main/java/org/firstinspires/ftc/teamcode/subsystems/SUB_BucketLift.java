@@ -32,6 +32,9 @@ public class SUB_BucketLift extends SubsystemBase {
         m_rightBucketLiftMotor.setTargetPosition(0);
         m_rightBucketLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         m_rightBucketLiftMotor.setPower(0);
+
+        m_rightBucketLiftMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, new PIDFCoefficients(15, 0, 0,0 ));
+        m_leftBucketLiftMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, new PIDFCoefficients(15, 0, 0, 0));
     }
 
     public void setTargetPosition(int p_pos){
@@ -75,5 +78,10 @@ public class SUB_BucketLift extends SubsystemBase {
 
         m_opMode.telemetry.addData("right bucket lift targ. pos.", m_rightBucketLiftMotor.getTargetPosition());
         m_opMode.telemetry.addData("right bucket lift cur. pos.", m_rightBucketLiftMotor.getCurrentPosition());
+
+        m_opMode.telemetry.addData("P", m_rightBucketLiftMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION).p);
+        m_opMode.telemetry.addData("I", m_rightBucketLiftMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION).i);
+        m_opMode.telemetry.addData("D", m_rightBucketLiftMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION).d);
+        m_opMode.telemetry.addData("F", m_rightBucketLiftMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION).f);
     }
 }

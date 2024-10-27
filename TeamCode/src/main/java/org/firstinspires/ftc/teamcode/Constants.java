@@ -13,7 +13,7 @@ public class Constants {
         public static final double kBucketIntake = 0.91;//.933
         public static final double kIntakeOn = 1;
         public static final double kIntakeOff = 0;
-        public static final double kIntakeReverse = -0.33;
+        public static final double kIntakeReverse = -0.50;
     }
     public static final class BucketLift{
         public static final int kLiftHome = 3;

@@ -52,7 +52,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .build();
 
         Trajectory driveIntoSample = m_robot.drivetrain.trajectoryBuilder(new Pose2d(moveToBasket.end().getX(), moveToBasket.end().getY(), Math.toRadians(-100)), true)
-                .lineToConstantHeading(new Vector2d(-48, -42))
+                .lineToConstantHeading(new Vector2d(-48, -40))
                 .build();
 
         Trajectory scoreSecondSample = m_robot.drivetrain.trajectoryBuilder(driveIntoSample.end(), false)
@@ -64,7 +64,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .build();
 
         Trajectory driveIntoThirdSample = m_robot.drivetrain.trajectoryBuilder(lineUpThirdSample.end(), true)
-                .lineToLinearHeading(new Pose2d(-60, -40, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-61.5, -41, Math.toRadians(-90)))
                 .build();
 
         Trajectory scoreThirdSample = m_robot.drivetrain.trajectoryBuilder(driveIntoThirdSample.end(), false)
@@ -76,7 +76,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .build();
 
         Trajectory driveIntoFourthSample = m_robot.drivetrain.trajectoryBuilder(lineUpFourthSample.end(), true)
-                .lineToLinearHeading(new Pose2d(-50, -32, Math.toRadians(-20)))
+                .lineToLinearHeading(new Pose2d(-51, -31, Math.toRadians(-20)))
                 .build();
 
         Trajectory scoreFourthSample = m_robot.drivetrain.trajectoryBuilder(driveIntoFourthSample.end(), false)
@@ -94,7 +94,6 @@ public class AUTO_RedBasket extends Robot_Auto {
             )
             ,new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_bucket)
             ,new RR_TurnCommand(m_robot.drivetrain, Math.toRadians(35))
-//            ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, lineUpFirstGroundSample)
             ,new ParallelCommandGroup(
                 new InstantCommand(()-> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome))
                 ,new InstantCommand(()-> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftHome))
@@ -105,9 +104,11 @@ public class AUTO_RedBasket extends Robot_Auto {
             ,new ParallelCommandGroup(
                 new RR_TrajectoryFollowerCommand(m_robot.drivetrain, driveIntoSample)
                 ,new InstantCommand(()-> m_robot.m_intakeSubSlide.setTargetPosition(1000))
+                ,new SequentialCommandGroup(
+                    new WaitCommand(1500)
+                    ,new CMD_IntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket)
+                )
             )
-            ,new WaitCommand(500)
-            ,new CMD_IntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket)
             ,new WaitCommand(500)
             ,new ParallelCommandGroup(
                 new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket)

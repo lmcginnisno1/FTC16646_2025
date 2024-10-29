@@ -13,7 +13,7 @@ public class CMD_IntakeSub extends SequentialCommandGroup {
     public CMD_IntakeSub(GlobalVariables p_variables, SUB_IntakeSubSlide p_intakeSubSlide,
             SUB_SubmersibleIntake p_subIntake, SUB_Bucket p_bucket){
         addCommands(
-            new InstantCommand(()-> p_variables.setRobotState(GlobalVariables.RobotState.TRANSITION_TO_STOW))
+            new InstantCommand(()-> p_variables.setRobotState(GlobalVariables.RobotState.TRANSITIONING_TO_STOW))
             ,new InstantCommand(()-> p_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOff))
             ,new InstantCommand(()-> p_subIntake.setBucketPosition(Constants.SubIntakeConstants.kBucketReadyToIntake))
             ,new InstantCommand(()-> p_intakeSubSlide.setTargetPosition(Constants.SubmersibleSlide.kSlideTransfer))

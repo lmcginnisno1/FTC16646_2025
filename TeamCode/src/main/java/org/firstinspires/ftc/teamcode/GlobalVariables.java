@@ -9,7 +9,7 @@ public class GlobalVariables {
           ,TRANSITIONING_TO_INTAKE
           ,READY_TO_INTAKE
           ,INTAKE
-          ,TRANSITION_TO_STOW
+          ,TRANSITIONING_TO_STOW
           ,STOW
           ,TRANSITIONING_TO_DEPLOY
           ,READY_TO_DEPLOY

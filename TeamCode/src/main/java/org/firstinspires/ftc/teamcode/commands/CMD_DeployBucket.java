@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.subsystems.SUB_Bucket;
 import org.firstinspires.ftc.teamcode.subsystems.SUB_BucketLift;
 
 public class CMD_DeployBucket extends SequentialCommandGroup {
-    public CMD_DeployBucket(GlobalVariables p_variables, SUB_BucketLift p_bucketLift, SUB_Bucket p_bucket){
+    public CMD_DeployBucket(GlobalVariables p_variables, SUB_Bucket p_bucket){
         addCommands(
             new InstantCommand(()-> p_variables.setRobotState(GlobalVariables.RobotState.TRANSITIONING_TO_DEPLOY))
             ,new InstantCommand(()-> p_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketDeploy))

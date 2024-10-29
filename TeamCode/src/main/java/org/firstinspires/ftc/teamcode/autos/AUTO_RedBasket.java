@@ -92,7 +92,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                     ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, moveToBasket)
                 )
             )
-            ,new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_bucket)
+            ,new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucket)
             ,new RR_TurnCommand(m_robot.drivetrain, Math.toRadians(35))
             ,new ParallelCommandGroup(
                 new InstantCommand(()-> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome))
@@ -115,7 +115,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, scoreSecondSample)
                 ,new CMD_ReadyToDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift)
             )
-            ,new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_bucket)
+            ,new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucket)
             ,new RR_TurnCommand(m_robot.drivetrain, Math.toRadians(45))
 //            ,new ParallelCommandGroup(
                 ,new InstantCommand(()-> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome))
@@ -139,7 +139,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, scoreThirdSample)
                 ,new CMD_ReadyToDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift)
             )
-            ,new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_bucket)
+            ,new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucket)
             ,new ParallelCommandGroup(
                 new InstantCommand(()-> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome))
                 ,new InstantCommand(()-> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftHome))
@@ -160,7 +160,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                     ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, scoreFourthSample)
                     ,new CMD_ReadyToDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift)
             )
-            ,new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_bucket)
+            ,new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucket)
             ,new CMD_ResetToHome(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_intakeSubSlide, m_robot.m_bucket, m_robot.m_subIntake)
         );
         return cmds;

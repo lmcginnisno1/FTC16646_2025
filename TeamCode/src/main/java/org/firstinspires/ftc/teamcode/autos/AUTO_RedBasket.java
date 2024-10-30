@@ -64,7 +64,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .build();
 
         Trajectory driveIntoThirdSample = m_robot.drivetrain.trajectoryBuilder(lineUpThirdSample.end(), true)
-                .lineToLinearHeading(new Pose2d(-61.5, -41, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-61, -41, Math.toRadians(-90)))
                 .build();
 
         Trajectory scoreThirdSample = m_robot.drivetrain.trajectoryBuilder(driveIntoThirdSample.end(), false)
@@ -72,11 +72,11 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .build();
 
         Trajectory lineUpFourthSample = m_robot.drivetrain.trajectoryBuilder(scoreThirdSample.end(), true)
-                .lineToLinearHeading(new Pose2d(-40, -34, Math.toRadians(-20)))
+                .lineToLinearHeading(new Pose2d(-40, -34, Math.toRadians(-17.5)))
                 .build();
 
         Trajectory driveIntoFourthSample = m_robot.drivetrain.trajectoryBuilder(lineUpFourthSample.end(), true)
-                .lineToLinearHeading(new Pose2d(-51, -31, Math.toRadians(-20)))
+                .lineToLinearHeading(new Pose2d(-51, -31, Math.toRadians(-17.5)))
                 .build();
 
         Trajectory scoreFourthSample = m_robot.drivetrain.trajectoryBuilder(driveIntoFourthSample.end(), false)

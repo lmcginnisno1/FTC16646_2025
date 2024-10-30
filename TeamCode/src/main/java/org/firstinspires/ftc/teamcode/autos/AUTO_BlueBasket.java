@@ -29,7 +29,7 @@ public class AUTO_BlueBasket extends Robot_Auto {
 
     @Override
     public void prebuildTasks() {
-        setStartingPose(new Pose2d(-41, -63.625, Math.toRadians(180)));
+        setStartingPose(new Pose2d(41, 63.625, Math.toRadians(0)));
     }
 
     @Override
@@ -51,8 +51,8 @@ public class AUTO_BlueBasket extends Robot_Auto {
                 .lineToLinearHeading(new Pose2d(58, 58, Math.toRadians(45)))
                 .build();
 
-        Trajectory driveIntoSample = m_robot.drivetrain.trajectoryBuilder(new Pose2d(moveToBasket.end().getX(), moveToBasket.end().getY(), Math.toRadians(80)), true)
-                .lineToConstantHeading(new Vector2d(48, 42))
+        Trajectory driveIntoSample = m_robot.drivetrain.trajectoryBuilder(new Pose2d(moveToBasket.end().getX(), moveToBasket.end().getY(), Math.toRadians(-100)), true)
+                .lineToConstantHeading(new Vector2d(48, 40))
                 .build();
 
         Trajectory scoreSecondSample = m_robot.drivetrain.trajectoryBuilder(driveIntoSample.end(), false)
@@ -64,7 +64,7 @@ public class AUTO_BlueBasket extends Robot_Auto {
                 .build();
 
         Trajectory driveIntoThirdSample = m_robot.drivetrain.trajectoryBuilder(lineUpThirdSample.end(), true)
-                .lineToLinearHeading(new Pose2d(60, 40, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(61, 41, Math.toRadians(90)))
                 .build();
 
         Trajectory scoreThirdSample = m_robot.drivetrain.trajectoryBuilder(driveIntoThirdSample.end(), false)
@@ -72,11 +72,11 @@ public class AUTO_BlueBasket extends Robot_Auto {
                 .build();
 
         Trajectory lineUpFourthSample = m_robot.drivetrain.trajectoryBuilder(scoreThirdSample.end(), true)
-                .lineToLinearHeading(new Pose2d(40, 34, Math.toRadians(160)))
+                .lineToLinearHeading(new Pose2d(40, 34, Math.toRadians(162.5)))
                 .build();
 
         Trajectory driveIntoFourthSample = m_robot.drivetrain.trajectoryBuilder(lineUpFourthSample.end(), true)
-                .lineToLinearHeading(new Pose2d(50, 32, Math.toRadians(160)))
+                .lineToLinearHeading(new Pose2d(51, 31, Math.toRadians(162.5)))
                 .build();
 
         Trajectory scoreFourthSample = m_robot.drivetrain.trajectoryBuilder(driveIntoFourthSample.end(), false)
@@ -104,9 +104,11 @@ public class AUTO_BlueBasket extends Robot_Auto {
                 ,new ParallelCommandGroup(
                         new RR_TrajectoryFollowerCommand(m_robot.drivetrain, driveIntoSample)
                         ,new InstantCommand(()-> m_robot.m_intakeSubSlide.setTargetPosition(1000))
+                        ,new SequentialCommandGroup(
+                        new WaitCommand(1500)
+                        ,new CMD_IntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket)
                 )
-                ,new WaitCommand(500)
-                ,new CMD_IntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket)
+                )
                 ,new WaitCommand(500)
                 ,new ParallelCommandGroup(
                         new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket)

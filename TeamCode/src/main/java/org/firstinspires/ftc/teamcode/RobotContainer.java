@@ -21,8 +21,7 @@ public class RobotContainer {
 
      public RobotContainer(OpMode p_opMode) {
           m_odometry = new SUB_Odometry(p_opMode);
-          SampleMecanumDrive drivebase = new SampleMecanumDrive(p_opMode.hardwareMap);
-          drivetrain = new MecanumDriveSubsystem(drivebase, true);
+          drivetrain = new MecanumDriveSubsystem(new SampleMecanumDrive(p_opMode.hardwareMap), true);
           GlobalVariables = new GlobalVariables();
           m_bucket = new SUB_Bucket(p_opMode);
           m_subIntake = new SUB_SubmersibleIntake(p_opMode);

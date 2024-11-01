@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 public class GlobalVariables {
      public static Pose2d m_autonomousEndPose = new Pose2d(0, 0, Math.toRadians(90));
+     public static boolean bucketAuto = true;
      public enum RobotState {
           HOME
           ,TRANSITIONING_TO_INTAKE

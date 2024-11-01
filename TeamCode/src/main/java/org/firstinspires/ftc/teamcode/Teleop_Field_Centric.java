@@ -138,8 +138,12 @@ public class Teleop_Field_Centric extends LinearOpMode {
      }
 
      public void setSide() {
+          if(GlobalVariables.bucketAuto){
+               m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(135)));
+          }else{
+               m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(180)));
+          }
           m_robot.setRedSide();
-          m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(135)));
      }
 
      public void AddButtonCommand(GamepadEx gamepad, GamepadKeys.Button button, Command command) {

@@ -24,8 +24,8 @@ import org.firstinspires.ftc.teamcode.ftclib.command.ParallelRaceGroup;
 import org.firstinspires.ftc.teamcode.ftclib.command.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.ftclib.command.WaitCommand;
 
-@Autonomous(name = "Red Chamber", group = "Auto Red", preselectTeleOp = "Teleop Red")
-public class AUTO_RedChamber extends Robot_Auto {
+@Autonomous(name = "Blue Chamber", group = "Auto Blue", preselectTeleOp = "Teleop Blue")
+public class AUTO_BlueChamber extends Robot_Auto {
     Trajectory m_placeChamberOne;
     Trajectory m_releaseChamber;
     Trajectory m_lineUpGroundSampleOne;
@@ -77,10 +77,10 @@ public class AUTO_RedChamber extends Robot_Auto {
     public SequentialCommandGroup buildTasks() {
         SequentialCommandGroup completeTasks = new SequentialCommandGroup();
         completeTasks.addCommands(
-            new InstantCommand(()-> GlobalVariables.bucketAuto = false)
-            ,placeChamberOne()
-            ,lineUpGroundSampleOne()
-            ,lineUpGroundSampleTwo()
+                new InstantCommand(()->GlobalVariables.bucketAuto = false)
+                ,placeChamberOne()
+                ,lineUpGroundSampleOne()
+                ,lineUpGroundSampleTwo()
         );
         m_robot.schedule(completeTasks);
         return completeTasks;
@@ -89,18 +89,18 @@ public class AUTO_RedChamber extends Robot_Auto {
     SequentialCommandGroup placeChamberOne(){
         SequentialCommandGroup cmds = new SequentialCommandGroup();
         cmds.addCommands(
-            new ParallelCommandGroup(
-                new CMD_ReadyToDeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
-                ,new SequentialCommandGroup(
-                    new WaitCommand(500)
-                    ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_placeChamberOne)
+                new ParallelCommandGroup(
+                        new CMD_ReadyToDeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
+                        ,new SequentialCommandGroup(
+                        new WaitCommand(500)
+                        ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_placeChamberOne)
                 )
-            )
-            ,new WaitCommand(500)
-            ,new InstantCommand(()-> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftDeployHighChamber))
-            ,new WaitCommand(500)
-            ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_releaseChamber)
-            ,new CMD_DeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
+                )
+                ,new WaitCommand(500)
+                ,new InstantCommand(()-> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftDeployHighChamber))
+                ,new WaitCommand(500)
+                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_releaseChamber)
+                ,new CMD_DeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
         );
         return cmds;
     }
@@ -108,10 +108,10 @@ public class AUTO_RedChamber extends Robot_Auto {
     SequentialCommandGroup lineUpGroundSampleOne(){
         SequentialCommandGroup cmds = new SequentialCommandGroup();
         cmds.addCommands(
-            new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_lineUpGroundSampleOne)
-            ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_strafeFrontSampleOne)
-            ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_pushSampleOne)
-            ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_backUpSampleOne)
+                new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_lineUpGroundSampleOne)
+                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_strafeFrontSampleOne)
+                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_pushSampleOne)
+                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_backUpSampleOne)
         );
         return cmds;
     }
@@ -119,11 +119,11 @@ public class AUTO_RedChamber extends Robot_Auto {
     SequentialCommandGroup lineUpGroundSampleTwo(){
         SequentialCommandGroup cmds = new SequentialCommandGroup();
         cmds.addCommands(
-            new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_lineUpSampleTwo)
-            ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_pushSampleTwo)
-            ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_backUpSampleTwo)
-            ,new WaitCommand(5000)
-            ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_park)
+                new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_lineUpSampleTwo)
+                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_pushSampleTwo)
+                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_backUpSampleTwo)
+                ,new WaitCommand(5000)
+                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_park)
         );
         return cmds;
     }

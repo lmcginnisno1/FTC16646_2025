@@ -10,7 +10,7 @@ public class Constants {
         public static final double kBucketHome = 0.51;
         public static final double kBucketTransfer = 0.375;
         public static final double kBucketReadyToIntake = 0.75;//0.8
-        public static final double kBucketIntake = 0.91;//.933
+        public static final double kBucketIntake = 0.875;//.933
         public static final double kIntakeOn = 1;
         public static final double kIntakeOff = 0;
         public static final double kIntakeReverse = -0.50;

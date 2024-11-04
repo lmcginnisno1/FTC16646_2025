@@ -37,7 +37,7 @@ public class CMD_BucketLiftReset extends CommandBase {
             m_previousEncoderValue = m_bucketLift.getCurrentPosition();
         } else {
             // wait for the elevator is stabilize before finish
-            if (m_runTime.milliseconds() > 200) m_isFinished = true;
+            if (m_runTime.milliseconds() > 100) m_isFinished = true;
         }
     }
 

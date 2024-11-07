@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.GlobalVariables;
 import org.firstinspires.ftc.teamcode.RobotContainer;
 import org.firstinspires.ftc.teamcode.ftclib.command.CommandBase;
+import org.firstinspires.ftc.teamcode.ftclib.command.InstantCommand;
+import org.firstinspires.ftc.teamcode.ftclib.command.ParallelCommandGroup;
 
 public class CMD_HandleReadyToDeploy extends CommandBase {
     private final RobotContainer m_robot;
@@ -32,6 +35,10 @@ public class CMD_HandleReadyToDeploy extends CommandBase {
             case TRANSITIONING_TO_HOME:
                 m_robot.schedule(new CMD_HomeBucket(m_robot.GlobalVariables, m_robot.m_bucket, m_robot.m_bucketLift));
                 break;
+            case INTAKE:
+                m_robot.schedule(new CMD_FastDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift,
+                    m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket));
+                break;
             default:
                 // No action for other states
                 break;
@@ -42,7 +49,8 @@ public class CMD_HandleReadyToDeploy extends CommandBase {
         return state == GlobalVariables.RobotState.STOW
                 || state == GlobalVariables.RobotState.TRANSITIONING_TO_HOME
                 || state == GlobalVariables.RobotState.READY_TO_DEPLOY
-                || state == GlobalVariables.RobotState.HOME;
+                || state == GlobalVariables.RobotState.HOME
+                || state == GlobalVariables.RobotState.INTAKE;
     }
 
     @Override

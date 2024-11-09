@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.GlobalVariables;
 import org.firstinspires.ftc.teamcode.ftclib.command.SubsystemBase;
 import org.firstinspires.ftc.teamcode.Constants.SubIntakeConstants;
 
@@ -32,14 +33,10 @@ public class SUB_SubmersibleIntake extends SubsystemBase {
 
     public void setIntakeSpeed(double p_speed){
         m_subIntakeServo.setPower(p_speed);
-        if(p_speed > 0){
-            m_intaking = true;
+        if(p_speed != 0){
+            GlobalVariables.m_intaking = true;
         }else{
-            m_intaking = false;
+            GlobalVariables.m_intaking = false;
         }
-    }
-
-    public boolean isIntaking(){
-        return m_intaking;
     }
 }

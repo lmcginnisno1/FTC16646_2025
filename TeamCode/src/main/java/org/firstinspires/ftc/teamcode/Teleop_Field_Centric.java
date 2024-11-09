@@ -91,7 +91,7 @@ public class Teleop_Field_Centric extends LinearOpMode {
           AddButtonCommand(m_driverOp, GamepadKeys.Button.A, new ConditionalCommand(
                new InstantCommand(()-> m_robot.m_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOff))
                ,new InstantCommand(()-> m_robot.m_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOn))
-               ,()-> m_robot.m_subIntake.isIntaking()
+               ,()-> GlobalVariables.m_intaking
           ));
 
           AddButtonCommand(m_driverOp, GamepadKeys.Button.B, new ConditionalCommand(

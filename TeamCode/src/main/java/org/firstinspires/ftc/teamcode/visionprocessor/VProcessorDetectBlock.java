@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.visionprocessors;
+package org.firstinspires.ftc.teamcode.visionprocessor;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Vision Processor to detect colored blocks (Red, Blue, Yellow) and determine their offset from the robot.
  */
-public class VProcessor_DetectColorAndOffset extends VisionProcessorBase {
+public class VProcessorDetectBlock extends VisionProcessorBase {
 
     /**
      * Enum to represent target colors.

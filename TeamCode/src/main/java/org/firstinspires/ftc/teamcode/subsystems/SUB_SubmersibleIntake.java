@@ -12,11 +12,12 @@ public class SUB_SubmersibleIntake extends SubsystemBase {
     CRServo m_subIntakeServo;
     Servo m_subBucketServo;
     boolean m_subBucketIntake = true;
-    boolean m_intaking = false;
+    OpMode m_opMode;
     public SUB_SubmersibleIntake(OpMode p_opMode){
-        m_subIntakeServo = p_opMode.hardwareMap.get(CRServo.class, "SubIntakeServo");
+        m_opMode = p_opMode;
+        m_subIntakeServo = m_opMode.hardwareMap.get(CRServo.class, "SubIntakeServo");
         m_subIntakeServo.setPower(SubIntakeConstants.kIntakeOff);
-        m_subBucketServo = p_opMode.hardwareMap.get(Servo.class, "SubBucketServo");
+        m_subBucketServo = m_opMode.hardwareMap.get(Servo.class, "SubBucketServo");
         m_subBucketServo.setPosition(SubIntakeConstants.kBucketHome);
     }
 
@@ -38,5 +39,10 @@ public class SUB_SubmersibleIntake extends SubsystemBase {
         }else{
             GlobalVariables.m_intaking = false;
         }
+    }
+
+    @Override
+    public void periodic(){
+        m_opMode.telemetry.addData("intaking", GlobalVariables.m_intaking);
     }
 }

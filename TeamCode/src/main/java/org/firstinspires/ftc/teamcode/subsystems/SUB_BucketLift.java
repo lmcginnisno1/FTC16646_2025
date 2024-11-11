@@ -33,7 +33,7 @@ public class SUB_BucketLift extends SubsystemBase {
         m_rightBucketLiftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         m_rightBucketLiftMotor.setPower(0);
 
-        m_rightBucketLiftMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, new PIDFCoefficients(15, 0, 0,0 ));
+        m_rightBucketLiftMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, new PIDFCoefficients(15, 0, 0,0));
         m_leftBucketLiftMotor.setPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION, new PIDFCoefficients(15, 0, 0, 0));
     }
 
@@ -54,9 +54,9 @@ public class SUB_BucketLift extends SubsystemBase {
 
     public void startReset(){
         m_leftBucketLiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        m_leftBucketLiftMotor.setPower(-0.9);
+        m_leftBucketLiftMotor.setPower(-0.5);
         m_rightBucketLiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        m_rightBucketLiftMotor.setPower(-0.9);
+        m_rightBucketLiftMotor.setPower(-0.5);
     }
 
     public void resetEncoder(){

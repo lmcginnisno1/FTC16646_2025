@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.ftclib.command.*;
 
 @Autonomous(name = "Blue Basket", preselectTeleOp = "Teleop Blue", group = "Auto Blue")
 public class AUTO_BlueBasket extends Robot_Auto {
+    //exact copy of red other than different start heading in teleop
     Trajectory moveToBasket;
 
     // First Sample
@@ -29,7 +30,7 @@ public class AUTO_BlueBasket extends Robot_Auto {
     Trajectory scoreFourthSample;
     @Override
     public void prebuildTasks() {
-        setStartingPose(new Pose2d(41, 63.625, Math.toRadians(0)));
+        setStartingPose(new Pose2d(-41, -63.625, Math.toRadians(180)));
     }
 
     @Override
@@ -41,39 +42,40 @@ public class AUTO_BlueBasket extends Robot_Auto {
     }
 
     private SequentialCommandGroup placePreloadBasket() {
-        //define trajectories
+        // Define trajectories
         moveToBasket = m_robot.drivetrain.trajectoryBuilder(getStartingPose(), false)
-                .lineToLinearHeading(new Pose2d(58, 58, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(-57.75, -57.75, Math.toRadians(-135)))
                 .build();
 
         // Second Sample
-        driveIntoSecondSample = m_robot.drivetrain.trajectoryBuilder(new Pose2d(moveToBasket.end().getX(), moveToBasket.end().getY(), Math.toRadians(80)), true)
-                .lineToConstantHeading(new Vector2d(48, 40))
+        driveIntoSecondSample = m_robot.drivetrain.trajectoryBuilder(new Pose2d(moveToBasket.end().getX(), moveToBasket.end().getY(), Math.toRadians(-100)), true)
+                .lineToConstantHeading(new Vector2d(-50, -44))
                 .build();
         scoreSecondSample = m_robot.drivetrain.trajectoryBuilder(driveIntoSecondSample.end(), false)
-                .lineToLinearHeading(new Pose2d(56.25, 56.5, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(-58, -58.5, Math.toRadians(-135)))
                 .build();
 
         // Second Sample
-        lineUpThirdSample = m_robot.drivetrain.trajectoryBuilder(scoreSecondSample.end(), true)
-                .lineToLinearHeading(new Pose2d(60, 52, Math.toRadians(90)))
+        lineUpThirdSample = m_robot.drivetrain.trajectoryBuilder(new Pose2d(scoreSecondSample.end().getX(),
+                        scoreSecondSample.end().getY(), Math.toRadians(-90)), true)
+                .lineToLinearHeading(new Pose2d(-60, -52, Math.toRadians(-90)))
                 .build();
         driveIntoThirdSample = m_robot.drivetrain.trajectoryBuilder(lineUpThirdSample.end(), true)
-                .lineToLinearHeading(new Pose2d(61, 41, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(-60, -42, Math.toRadians(-90)))
                 .build();
         scoreThirdSample = m_robot.drivetrain.trajectoryBuilder(driveIntoThirdSample.end(), false)
-                .lineToLinearHeading(new Pose2d(56.25, 56.5, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(-57, -56.5, Math.toRadians(-135)))
                 .build();
 
         //Fourth Sample
         lineUpFourthSample = m_robot.drivetrain.trajectoryBuilder(scoreThirdSample.end(), true)
-                .lineToLinearHeading(new Pose2d(39, 35, Math.toRadians(163.5)))
+                .lineToLinearHeading(new Pose2d(-39, -35, Math.toRadians(-5)))
                 .build();
         driveIntoFourthSample = m_robot.drivetrain.trajectoryBuilder(lineUpFourthSample.end(), true)
-                .lineToLinearHeading(new Pose2d(50, 32, Math.toRadians(163.5)))
+                .lineToLinearHeading(new Pose2d(-50, -32, Math.toRadians(-5)))
                 .build();
         scoreFourthSample = m_robot.drivetrain.trajectoryBuilder(driveIntoFourthSample.end(), false)
-                .lineToLinearHeading(new Pose2d(55.5, 55.5, Math.toRadians(45)))
+                .lineToLinearHeading(new Pose2d(-56.5, -56.5, Math.toRadians(-135)))
                 .build();
 
         SequentialCommandGroup cmds = new SequentialCommandGroup();
@@ -91,63 +93,65 @@ public class AUTO_BlueBasket extends Robot_Auto {
     private SequentialCommandGroup placePreload() {
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    new CMD_ReadyToDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift),
-                    new RR_TrajectoryFollowerCommand(m_robot.drivetrain, moveToBasket)
+                        new CMD_ReadyToDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift),
+                        new RR_TrajectoryFollowerCommand(m_robot.drivetrain, moveToBasket)
                 ),
-                new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucket),
-                new RR_TurnCommand(m_robot.drivetrain, Math.toRadians(35))
+                new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucket)
         );
     }
 
     private SequentialCommandGroup intakeAndScoreFirstSample() {
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    new InstantCommand(() -> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome)),
-                    new InstantCommand(() -> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftHome)),
-                    new CMD_ReadyToIntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake)
+                        new RR_TurnCommand(m_robot.drivetrain, Math.toRadians(35)),
+                        new InstantCommand(() -> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome)),
+                        new InstantCommand(() -> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftHome)),
+                        new CMD_ReadyToIntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake)
                 ),
                 new InstantCommand(() -> m_robot.m_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOn)),
                 new InstantCommand(() -> m_robot.m_subIntake.setBucketPosition(Constants.SubIntakeConstants.kBucketIntake)),
                 new ParallelCommandGroup(
-                    new RR_TrajectoryFollowerCommand(m_robot.drivetrain, driveIntoSecondSample),
-                    new InstantCommand(() -> m_robot.m_intakeSubSlide.setTargetPosition(1000)),
-                    new SequentialCommandGroup(
-                            new WaitCommand(1500),
-                            new CMD_IntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket)
-                    )
+                        new RR_TrajectoryFollowerCommand(m_robot.drivetrain, driveIntoSecondSample),
+                        new InstantCommand(() -> m_robot.m_intakeSubSlide.setTargetPosition(1000)),
+                        new SequentialCommandGroup(
+                                new WaitCommand(1500),
+                                new CMD_IntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket)
+                        )
                 ),
                 new WaitCommand(500),
                 new ParallelCommandGroup(
-                    new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket),
-                    new RR_TrajectoryFollowerCommand(m_robot.drivetrain, scoreSecondSample),
-                    new CMD_ReadyToDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift)
+                        new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket),
+                        new RR_TrajectoryFollowerCommand(m_robot.drivetrain, scoreSecondSample),
+                        new CMD_ReadyToDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift)
                 ),
-                new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucket),
-                new RR_TurnCommand(m_robot.drivetrain, Math.toRadians(45))
+                new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucket)
         );
     }
 
     private SequentialCommandGroup intakeAndScoreSecondSample() {
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    new InstantCommand(() -> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome)),
-                    new InstantCommand(() -> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftHome)),
-                    new CMD_ReadyToIntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake),
-                    new InstantCommand(() -> m_robot.m_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOn)),
-                    new RR_TrajectoryFollowerCommand(m_robot.drivetrain, lineUpThirdSample)
+                        new InstantCommand(() -> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome)),
+                        new InstantCommand(() -> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftHome)),
+                        new CMD_ReadyToIntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake),
+                        new InstantCommand(() -> m_robot.m_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOn)),
+                        new SequentialCommandGroup(
+                                new RR_TurnCommand(m_robot.drivetrain, Math.toRadians(45)),
+                                new RR_TrajectoryFollowerCommand(m_robot.drivetrain, lineUpThirdSample)
+                        )
                 ),
                 new InstantCommand(() -> m_robot.m_subIntake.setBucketPosition(Constants.SubIntakeConstants.kBucketIntake)),
                 new ParallelCommandGroup(
-                    new RR_TrajectoryFollowerCommand(m_robot.drivetrain, driveIntoThirdSample),
-                    new InstantCommand(() -> m_robot.m_intakeSubSlide.setTargetPosition(1000))
+                        new RR_TrajectoryFollowerCommand(m_robot.drivetrain, driveIntoThirdSample),
+                        new InstantCommand(() -> m_robot.m_intakeSubSlide.setTargetPosition(1000))
                 ),
                 new WaitCommand(500),
                 new CMD_IntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket),
                 new WaitCommand(500),
                 new ParallelCommandGroup(
-                    new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket),
-                    new RR_TrajectoryFollowerCommand(m_robot.drivetrain, scoreThirdSample),
-                    new CMD_ReadyToDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift)
+                        new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket),
+                        new RR_TrajectoryFollowerCommand(m_robot.drivetrain, scoreThirdSample),
+                        new CMD_ReadyToDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift)
                 ),
                 new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucket)
         );
@@ -156,24 +160,24 @@ public class AUTO_BlueBasket extends Robot_Auto {
     private SequentialCommandGroup intakeAndScoreThirdSample() {
         return new SequentialCommandGroup(
                 new ParallelCommandGroup(
-                    new InstantCommand(() -> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome)),
-                    new InstantCommand(() -> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftHome)),
-                    new CMD_ReadyToIntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake),
-                    new InstantCommand(() -> m_robot.m_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOn)),
-                    new RR_TrajectoryFollowerCommand(m_robot.drivetrain, lineUpFourthSample)
+                        new InstantCommand(() -> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome)),
+                        new InstantCommand(() -> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftHome)),
+                        new CMD_ReadyToIntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake),
+                        new InstantCommand(() -> m_robot.m_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOn)),
+                        new RR_TrajectoryFollowerCommand(m_robot.drivetrain, lineUpFourthSample)
                 ),
                 new InstantCommand(() -> m_robot.m_subIntake.setBucketPosition(Constants.SubIntakeConstants.kBucketIntake)),
                 new ParallelCommandGroup(
-                    new RR_TrajectoryFollowerCommand(m_robot.drivetrain, driveIntoFourthSample),
-                    new InstantCommand(() -> m_robot.m_intakeSubSlide.setTargetPosition(1000))
+                        new RR_TrajectoryFollowerCommand(m_robot.drivetrain, driveIntoFourthSample),
+                        new InstantCommand(() -> m_robot.m_intakeSubSlide.setTargetPosition(1000))
                 ),
                 new WaitCommand(500),
                 new CMD_IntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket),
                 new WaitCommand(500),
                 new ParallelCommandGroup(
-                    new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket),
-                    new RR_TrajectoryFollowerCommand(m_robot.drivetrain, scoreFourthSample),
-                    new CMD_ReadyToDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift)
+                        new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket),
+                        new RR_TrajectoryFollowerCommand(m_robot.drivetrain, scoreFourthSample),
+                        new CMD_ReadyToDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift)
                 ),
                 new CMD_DeployBucket(m_robot.GlobalVariables, m_robot.m_bucket)
         );

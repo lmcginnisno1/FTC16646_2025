@@ -39,9 +39,7 @@ public abstract class Robot_Auto extends LinearOpMode {
                telemetry.update();
           }
 
-//          m_Analysis = m_robot.m_autonomousDetect.getSelected();
-//          m_robot.m_backCamera.setProcessorDisabled(m_robot.m_autonomousDetect); // shutdown auto detect visual processor
-//        m_Analysis = 1; // override for testing
+          m_robot.m_camera.resumeStreaming();
 
           buildTasks();
 

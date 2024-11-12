@@ -28,9 +28,9 @@ public class Constants {
     public static final class BucketLift{
         public static final int kLiftHome = 5;
         public static final int kLiftReadyToIntakeWall = 60;
-        public static final int kLiftIntakeWall = 500;
+        public static final int kLiftIntakeWall = 120;
         public static final int kLiftReadyToDeployHighBasket = 1080;
-        public static final int kLiftReadyToDeployHighChamber = 600;
+        public static final int kLiftReadyToDeployHighChamber = 550;
         public static final int kLiftDeployHighChamber = 450;
         public static final int kLiftTolerance = 5;
     }

@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.ftclib.command.Command;
 import org.firstinspires.ftc.teamcode.ftclib.command.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.*;
+import org.firstinspires.ftc.teamcode.visionprocessor.VProcessorDetectBlock;
 
 public class RobotContainer {
      public boolean m_red = true;
@@ -18,6 +19,8 @@ public class RobotContainer {
      public SUB_BucketLift m_bucketLift;
      public SUB_IntakeSubSlide m_intakeSubSlide;
      public SUB_Climb m_climb;
+     public VProcessorDetectBlock m_blockDetect;
+     public SUB_Vision m_camera;
 
      public RobotContainer(OpMode p_opMode) {
           m_odometry = new SUB_Odometry(p_opMode);
@@ -28,6 +31,9 @@ public class RobotContainer {
           m_bucketLift = new SUB_BucketLift(p_opMode);
           m_intakeSubSlide = new SUB_IntakeSubSlide(p_opMode);
           m_climb = new SUB_Climb(p_opMode);
+          m_blockDetect = new VProcessorDetectBlock();
+          m_camera = new SUB_Vision(p_opMode, "Webcam 1", 0, 0,
+                  0, m_blockDetect);
      };
 
      public void run() {

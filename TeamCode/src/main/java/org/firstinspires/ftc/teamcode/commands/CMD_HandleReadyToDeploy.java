@@ -33,7 +33,8 @@ public class CMD_HandleReadyToDeploy extends CommandBase {
                 m_robot.schedule(new CMD_Deploy(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_bucket));
                 break;
             case TRANSITIONING_TO_HOME:
-                m_robot.schedule(new CMD_HomeBucket(m_robot.GlobalVariables, m_robot.m_bucket, m_robot.m_bucketLift));
+                m_robot.schedule(new CMD_ResetToHome(m_robot.GlobalVariables, m_robot.m_bucketLift,
+                        m_robot.m_intakeSubSlide, m_robot.m_bucket, m_robot.m_subIntake));
                 break;
             case INTAKE:
                 m_robot.schedule(new CMD_FastDeployBucket(m_robot.GlobalVariables, m_robot.m_bucketLift,

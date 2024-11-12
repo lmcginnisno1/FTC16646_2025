@@ -63,7 +63,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .lineToLinearHeading(new Pose2d(-60, -42, Math.toRadians(-90)))
                 .build();
         scoreThirdSample = m_robot.drivetrain.trajectoryBuilder(driveIntoThirdSample.end(), false)
-                .lineToLinearHeading(new Pose2d(-56.5, -56.5, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(-56.75, -56.75, Math.toRadians(-135)))
                 .build();
 
         //Fourth Sample
@@ -74,7 +74,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .lineToLinearHeading(new Pose2d(-50, -32, Math.toRadians(-16.5)))
                 .build();
         scoreFourthSample = m_robot.drivetrain.trajectoryBuilder(driveIntoFourthSample.end(), false)
-                .lineToLinearHeading(new Pose2d(-55.5, -55.5, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(-55.75, -55.75, Math.toRadians(-135)))
                 .build();
 
         SequentialCommandGroup cmds = new SequentialCommandGroup();

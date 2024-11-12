@@ -13,8 +13,6 @@ public class CMD_DeployChamber extends SequentialCommandGroup {
             ,new InstantCommand(()-> p_bucketLift.setTargetPosition(Constants.BucketLift.kLiftDeployHighChamber))
             ,new CMD_BucketLiftInPosition(p_bucketLift)
             ,new InstantCommand(()-> p_variables.setRobotState(GlobalVariables.RobotState.TRANSITIONING_TO_HOME))
-            ,new CMD_BucketLiftReset(p_bucketLift)
-            ,new InstantCommand(()-> p_variables.setRobotState(GlobalVariables.RobotState.HOME))
         );
     }
 }

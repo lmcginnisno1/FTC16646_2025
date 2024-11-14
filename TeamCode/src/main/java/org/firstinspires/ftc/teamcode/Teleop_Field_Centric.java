@@ -126,11 +126,7 @@ public class Teleop_Field_Centric extends LinearOpMode {
           AddButtonCommand(m_toolOp, GamepadKeys.Button.B, new CMD_ResetToHome(m_robot.GlobalVariables,
                   m_robot.m_bucketLift, m_robot.m_intakeSubSlide, m_robot.m_bucket, m_robot.m_subIntake));
           AddButtonCommand(m_toolOp, GamepadKeys.Button.X, new CMD_HandleException(m_robot));
-          AddButtonCommand(m_toolOp, GamepadKeys.Button.Y, new ConditionalCommand(
-               new InstantCommand(()-> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketDeploy))
-               ,new InstantCommand(()-> m_robot.m_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome))
-               ,()-> m_robot.m_bucket.isBucketHome()
-          ));
+          AddButtonCommand(m_toolOp, GamepadKeys.Button.Y, new CMD_QuickDump(m_robot.GlobalVariables, m_robot.m_bucket));
           AddButtonCommand(m_toolOp, GamepadKeys.Button.BACK, new InstantCommand(()-> m_robot.m_subIntake.setIntakeSpeed(-1)));
           AddButtonCommand(m_toolOp, GamepadKeys.Button.START, new InstantCommand(()-> m_robot.m_climb.reset()));
           AddButtonCommand(m_toolOp, GamepadKeys.Button.LEFT_BUMPER, new InstantCommand(()-> m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(90)))));

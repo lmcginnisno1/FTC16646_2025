@@ -31,7 +31,7 @@ public class Constants {
         public static final int kLiftIntakeWall = 120;
         public static final int kLiftReadyToDeployHighBasket = 1080;
         public static final int kLiftReadyToDeployHighChamber = 550;
-        public static final int kLiftDeployHighChamber = 450;
+        public static final int kLiftDeployHighChamber = 400;
         public static final int kLiftTolerance = 5;
     }
 }

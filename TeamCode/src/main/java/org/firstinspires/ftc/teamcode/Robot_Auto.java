@@ -39,7 +39,7 @@ public abstract class Robot_Auto extends LinearOpMode {
                telemetry.update();
           }
 
-          m_robot.m_camera.resumeStreaming();
+//          m_robot.m_camera.resumeStreaming();
 
           buildTasks();
 

@@ -75,7 +75,7 @@ public class Teleop_Field_Centric extends LinearOpMode {
           //drivetrain initialization
           m_robot.drivetrain.setFieldCentric(true);
           m_robot.drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-          m_robot.drivetrain.setDefaultCommand(new RR_MecanumDriveDefault(m_robot.drivetrain, m_driverOp,0.0,0.01, m_robot.GlobalVariables));
+          m_robot.drivetrain.setDefaultCommand(new RR_MecanumDriveDefault(m_robot.drivetrain, m_driverOp, m_toolOp, 0.0,0.01, m_robot.GlobalVariables));
           //button bindings and global variables initialization
           configureButtonBindings();
      }
@@ -136,7 +136,7 @@ public class Teleop_Field_Centric extends LinearOpMode {
           if(GlobalVariables.bucketAuto){
                m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(135)));
           }else{
-               m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(180)));
+               m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(0)));
           }
           m_robot.setRedSide();
      }

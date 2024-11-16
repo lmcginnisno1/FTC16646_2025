@@ -16,13 +16,15 @@ public class RR_MecanumDriveDefault extends CommandBase {
 
     MecanumDriveSubsystem m_drivetrain = null;
     private GamepadEx m_driverOP = null;
+    private GamepadEx m_toolOp = null;
     private double m_driverOffsetAngle = 0;
     private double m_joystickMin = 0.02;
     GlobalVariables m_variables;
-    public RR_MecanumDriveDefault(MecanumDriveSubsystem p_drive, GamepadEx driverOp,
+    public RR_MecanumDriveDefault(MecanumDriveSubsystem p_drive, GamepadEx driverOp, GamepadEx p_toolOp,
                                   double driverOffsetAngle, double joystickMin, GlobalVariables p_variables) {
         m_drivetrain = p_drive;
         m_driverOP = driverOp; // gamepad of driver
+        m_toolOp = p_toolOp;
         m_driverOffsetAngle = driverOffsetAngle;
         m_joystickMin = joystickMin;
         m_variables = p_variables;
@@ -58,7 +60,7 @@ public class RR_MecanumDriveDefault extends CommandBase {
         leftY = Range.clip(leftY * R / factor, -1, 1);
 
         final double slowMax = 0.50;
-        double slowMo = m_driverOP.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
+        double slowMo = m_toolOp.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER);
         if(m_variables.isRobotState(GlobalVariables.RobotState.READY_TO_INTAKE)){
             slowMo = 1;
         }

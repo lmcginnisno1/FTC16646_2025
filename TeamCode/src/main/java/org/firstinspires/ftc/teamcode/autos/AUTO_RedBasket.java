@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Constants;
+import org.firstinspires.ftc.teamcode.GlobalVariables;
 import org.firstinspires.ftc.teamcode.Robot_Auto;
 import org.firstinspires.ftc.teamcode.commands.*;
 import org.firstinspires.ftc.teamcode.ftclib.command.*;
@@ -43,7 +44,7 @@ public class AUTO_RedBasket extends Robot_Auto {
     private SequentialCommandGroup placePreloadBasket() {
         // Define trajectories
         moveToBasket = m_robot.drivetrain.trajectoryBuilder(getStartingPose(), false)
-                .lineToLinearHeading(new Pose2d(-57.75, -57.75, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(-57, -57, Math.toRadians(-135)))
                 .build();
 
         // Second Sample
@@ -51,7 +52,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .lineToConstantHeading(new Vector2d(-50, -44))
                 .build();
         scoreSecondSample = m_robot.drivetrain.trajectoryBuilder(driveIntoSecondSample.end(), false)
-                .lineToLinearHeading(new Pose2d(-56.5, -56.5, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(-57, -56.5, Math.toRadians(-135)))
                 .build();
 
         // Second Sample
@@ -60,7 +61,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .lineToLinearHeading(new Pose2d(-60, -52, Math.toRadians(-90)))
                 .build();
         driveIntoThirdSample = m_robot.drivetrain.trajectoryBuilder(lineUpThirdSample.end(), true)
-                .lineToLinearHeading(new Pose2d(-60, -42, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(-60, -45, Math.toRadians(-90)))
                 .build();
         scoreThirdSample = m_robot.drivetrain.trajectoryBuilder(driveIntoThirdSample.end(), false)
                 .lineToLinearHeading(new Pose2d(-56.75, -56.75, Math.toRadians(-135)))
@@ -74,11 +75,12 @@ public class AUTO_RedBasket extends Robot_Auto {
                 .lineToLinearHeading(new Pose2d(-50, -32, Math.toRadians(-16.5)))
                 .build();
         scoreFourthSample = m_robot.drivetrain.trajectoryBuilder(driveIntoFourthSample.end(), false)
-                .lineToLinearHeading(new Pose2d(-55.75, -55.75, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(-55.25, -55.25, Math.toRadians(-135)))
                 .build();
 
         SequentialCommandGroup cmds = new SequentialCommandGroup();
         cmds.addCommands(
+                new InstantCommand(()-> GlobalVariables.bucketAuto = true),
                 placePreload(),
                 intakeAndScoreFirstSample(),
                 intakeAndScoreSecondSample(),
@@ -117,7 +119,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                             new CMD_IntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket)
                     )
                 ),
-                new WaitCommand(500),
+                new WaitCommand(1000),
                 new ParallelCommandGroup(
                     new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket),
                     new RR_TrajectoryFollowerCommand(m_robot.drivetrain, scoreSecondSample),
@@ -146,7 +148,7 @@ public class AUTO_RedBasket extends Robot_Auto {
                 ),
                 new WaitCommand(500),
                 new CMD_IntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket),
-                new WaitCommand(500),
+                new WaitCommand(1000),
                 new ParallelCommandGroup(
                     new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket),
                     new RR_TrajectoryFollowerCommand(m_robot.drivetrain, scoreThirdSample),

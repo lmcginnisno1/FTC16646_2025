@@ -14,6 +14,7 @@ public class Constants {
         public static final double kIntakeOn = 1;
         public static final double kIntakeOff = 0;
         public static final double kIntakeReverse = -0.25;
+        public static final double kIntakeTransfer = 0.1;
     }
     public static final class SubmersibleSlide{
         public static final int kSlideIntake = 1250;

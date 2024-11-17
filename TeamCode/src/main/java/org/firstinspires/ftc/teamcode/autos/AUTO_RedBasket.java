@@ -69,10 +69,10 @@ public class AUTO_RedBasket extends Robot_Auto {
 
         //Fourth Sample
         lineUpFourthSample = m_robot.drivetrain.trajectoryBuilder(scoreThirdSample.end(), true)
-                .lineToLinearHeading(new Pose2d(-39, -35, Math.toRadians(-16.5)))
+                .lineToLinearHeading(new Pose2d(-39, -35, Math.toRadians(-14)))
                 .build();
         driveIntoFourthSample = m_robot.drivetrain.trajectoryBuilder(lineUpFourthSample.end(), true)
-                .lineToLinearHeading(new Pose2d(-50, -32, Math.toRadians(-16.5)))
+                .lineToLinearHeading(new Pose2d(-50, -32, Math.toRadians(-14)))
                 .build();
         scoreFourthSample = m_robot.drivetrain.trajectoryBuilder(driveIntoFourthSample.end(), false)
                 .lineToLinearHeading(new Pose2d(-55.25, -55.25, Math.toRadians(-135)))

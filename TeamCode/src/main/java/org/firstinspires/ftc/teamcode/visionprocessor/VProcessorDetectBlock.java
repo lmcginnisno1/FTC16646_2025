@@ -40,6 +40,15 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
     private Rect detectedRect = null;
     private Point offset = new Point(0, 0);
 
+    // Parameters for camera position relative to robot center (in inches or cm)
+    private double cameraOffsetX = 2.0; // Camera is 2 inches to the right of the robot center
+    private double cameraOffsetY = 5.0; // Camera is 5 inches in front of the robot center
+    private double cameraAngle = 0.0; // Camera is perfectly aligned forward (0 degrees)
+
+    // Define the target aspect ratio and allowable tolerance
+    private double targetAspectRatio = 1.5 / 3.5; // Width to Height ratio (1.5:3.5)
+    private double aspectRatioTolerance = 0.1; // Allowable deviation (10%)
+
     // Define HSV color thresholds for each target color
     // These ranges may need to be adjusted based on your camera and lighting conditions
     private Scalar lowerRed1 = new Scalar(0, 100, 100);
@@ -107,33 +116,44 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
         offset = new Point(0, 0);
 
         if (!contours.isEmpty()) {
-            // Identify the largest contour based on area
+            // Identify the largest contour that meets the aspect ratio criteria
             double maxArea = 0;
-            MatOfPoint largestContour = null;
+            MatOfPoint largestValidContour = null;
             for (MatOfPoint contour : contours) {
                 double area = Imgproc.contourArea(contour);
                 if (area > maxArea) {
-                    maxArea = area;
-                    largestContour = contour;
+                    Rect boundingRect = Imgproc.boundingRect(contour);
+
+                    // Calculate aspect ratio of the bounding rectangle
+                    double aspectRatio = boundingRect.width < boundingRect.height ? (double) boundingRect.width / boundingRect.height : (double) boundingRect.height / boundingRect.width;
+
+                    // Check if the aspect ratio is within the acceptable range
+                    if (Math.abs(aspectRatio - targetAspectRatio) <= aspectRatioTolerance) {
+                        maxArea = area;
+                        largestValidContour = contour;
+                    }
                 }
             }
 
-            // If a significant contour is found, compute its bounding rectangle and offset
-            if (largestContour != null && maxArea > 500) { // Adjust the area threshold as needed
-                detectedRect = Imgproc.boundingRect(largestContour);
+            // If a valid contour is found, compute its bounding rectangle and offset
+            if (largestValidContour != null && maxArea > 500) { // Adjust the area threshold as needed
+                detectedRect = Imgproc.boundingRect(largestValidContour);
+
                 // Compute center of detected rectangle
                 double rectCenterX = detectedRect.x + detectedRect.width / 2.0;
                 double rectCenterY = detectedRect.y + detectedRect.height / 2.0;
 
-                // Compute image center
                 double imageCenterX = imageWidth / 2.0;
                 double imageCenterY = imageHeight / 2.0;
 
-                // Compute offset
                 double offsetX = rectCenterX - imageCenterX;
                 double offsetY = rectCenterY - imageCenterY;
 
-                offset = new Point(offsetX, offsetY);
+                // Transform the camera offset into robot-relative coordinates
+                Point cameraFrameOffset = new Point(offsetX, offsetY);
+                Point robotRelativeOffset = adjustForCameraPosition(cameraFrameOffset);
+
+                offset = robotRelativeOffset; // Use the adjusted offset
             }
         }
 
@@ -166,6 +186,27 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
         int bottom = top + Math.round(rect.height * scaleBmpPxToCanvasPx);
 
         return new android.graphics.Rect(left, top, right, bottom);
+    }
+
+    /**
+     * Converts OpenCV Rect to Android graphics Rect for drawing.
+     *
+     * @param cameraFrameOffset  The current camera frame offset to adjust based on where the camera is mounted.
+     * @return Point representing the adjusted offset.
+     */
+    private Point adjustForCameraPosition(Point cameraFrameOffset) {
+        // Convert camera angle to radians for calculations
+        double angleRad = Math.toRadians(cameraAngle);
+
+        // Rotate the camera offset by the camera's angle
+        double adjustedOffsetX = cameraFrameOffset.x * Math.cos(angleRad) - cameraOffset.y * Math.sin(angleRad);
+        double adjustedOffsetY = cameraFrameOffset.x * Math.sin(angleRad) + cameraOffset.y * Math.cos(angleRad);
+
+        // Add camera's physical position offsets
+        adjustedOffsetX += cameraOffsetX;
+        adjustedOffsetY += cameraOffsetY;
+
+        return new Point(adjustedOffsetX, adjustedOffsetY);
     }
 
     /**

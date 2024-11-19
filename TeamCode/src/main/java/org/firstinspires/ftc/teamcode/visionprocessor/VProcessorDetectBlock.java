@@ -62,6 +62,8 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
     private Scalar lowerYellow = new Scalar(20, 100, 100);
     private Scalar upperYellow = new Scalar(30, 255, 255);
 
+    private volatile DetectionResult lastDetectionResult = null;
+
     /**
      * Initialization method where camera parameters can be set.
      */
@@ -154,6 +156,13 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
                 Point robotRelativeOffset = adjustForCameraPosition(cameraFrameOffset);
 
                 offset = robotRelativeOffset; // Use the adjusted offset
+
+                lastDetectionResult = new DetectionResult();
+                lastDetectionResult.boundingRect = detectedRect;
+                lastDetectionResult.offset = offset;
+            }
+            else{
+                lastDetectionResult = null;
             }
         }
 
@@ -164,12 +173,7 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
             contour.release();
         }
 
-        // Create and return the detection result
-        DetectionResult result = new DetectionResult();
-        result.boundingRect = detectedRect;
-        result.offset = offset;
-
-        return result;
+        return lastDetectionResult;
     }
 
     /**
@@ -315,5 +319,9 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
     public static class DetectionResult {
         public Rect boundingRect;
         public Point offset;
+    }
+
+    public DetectionResult getLastDetectionResult() {
+        return lastDetectionResult;
     }
 }

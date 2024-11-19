@@ -240,6 +240,10 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
         centerPaint.setStrokeWidth(scaleCanvasDensity * 4);
 
         DetectionResult result = (DetectionResult) userContext;
+        if(result == null){
+            return;
+        }
+
         if (result.boundingRect != null) {
             android.graphics.Rect drawRect = makeGraphicsRect(result.boundingRect, scaleBmpPxToCanvasPx);
             canvas.drawRect(drawRect, detectedPaint);

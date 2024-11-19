@@ -155,11 +155,12 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
                 Point cameraFrameOffset = new Point(offsetX, offsetY);
                 Point robotRelativeOffset = adjustForCameraPosition(cameraFrameOffset);
 
-                offset = robotRelativeOffset; // Use the adjusted offset
+                offset = cameraFrameOffset; // Use the adjusted offset
 
                 lastDetectionResult = new DetectionResult();
                 lastDetectionResult.boundingRect = detectedRect;
-                lastDetectionResult.offset = offset;
+                lastDetectionResult.offset = cameraFrameOffset;
+                lastDetectionResult.adjustedOffset = robotRelativeOffset;
                 lastDetectionResult.area = maxArea;
             }
             else{
@@ -320,6 +321,7 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
     public static class DetectionResult {
         public Rect boundingRect;
         public Point offset;
+        public Point adjustedOffset;
         public double area;
     }
 

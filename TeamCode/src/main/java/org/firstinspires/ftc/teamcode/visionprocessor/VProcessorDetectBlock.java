@@ -160,6 +160,7 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
                 lastDetectionResult = new DetectionResult();
                 lastDetectionResult.boundingRect = detectedRect;
                 lastDetectionResult.offset = offset;
+                lastDetectionResult.area = maxArea;
             }
             else{
                 lastDetectionResult = null;
@@ -319,6 +320,7 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
     public static class DetectionResult {
         public Rect boundingRect;
         public Point offset;
+        public double area;
     }
 
     public DetectionResult getLastDetectionResult() {

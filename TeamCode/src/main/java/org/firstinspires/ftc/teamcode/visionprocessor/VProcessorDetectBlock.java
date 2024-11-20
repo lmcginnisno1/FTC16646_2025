@@ -42,11 +42,11 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
 
     // Define the target aspect ratio and allowable tolerance
     private double targetAspectRatio = 1.5 / 3.5; // Width to Height ratio (1.5:3.5)
-    private double aspectRatioTolerance = 0.1; // Allowable deviation (10%)
+    private double aspectRatioTolerance = 0.25; // Allowable deviation (10%)
 
     // Parameters for camera position relative to robot center (in inches or cm)
-    private double cameraOffsetX = 2.0; // Camera is 2 inches to the right of the robot center
-    private double cameraOffsetY = 5.0; // Camera is 5 inches in front of the robot center
+    private double cameraOffsetX = 2.25; // Camera is 2 inches to the right of the robot center
+    private double cameraOffsetY = 7.0; // Camera is 5 inches in front of the robot center
     private double cameraAngle = 0.0; // Camera is perfectly aligned forward (0 degrees)
 
     // Define HSV color thresholds for each target color
@@ -160,7 +160,7 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
                 lastDetectionResult = new DetectionResult();
                 lastDetectionResult.boundingRect = detectedRect;
                 lastDetectionResult.offset = cameraFrameOffset;
-                lastDetectionResult.adjustedOffset = robotRelativeOffset;
+                lastDetectionResult.adjustedOffset = cameraFrameOffset;
                 lastDetectionResult.area = maxArea;
             }
             else{
@@ -203,15 +203,15 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
     public Point adjustForCameraPosition(Point cameraOffset) {
         // Convert camera angle to radians for calculations
         double angleRad = Math.toRadians(cameraAngle);
-    
+
         // Rotate the camera offset by the camera's angle
         double adjustedOffsetX = cameraOffset.x * Math.cos(angleRad) - cameraOffset.y * Math.sin(angleRad);
         double adjustedOffsetY = cameraOffset.x * Math.sin(angleRad) + cameraOffset.y * Math.cos(angleRad);
-    
+
         // Add camera's physical position offsets
         adjustedOffsetX += cameraOffsetX;
         adjustedOffsetY += cameraOffsetY;
-    
+
         return new Point(adjustedOffsetX, adjustedOffsetY);
     }
 

@@ -73,15 +73,10 @@ public class SUB_BucketLift extends SubsystemBase {
 
     @Override
     public void periodic(){
-        m_opMode.telemetry.addData("bucket lift targ. pos.", getTargetPosition());
-        m_opMode.telemetry.addData("bucket lift cur. pos.", getCurrentPosition());
-
-        m_opMode.telemetry.addData("right bucket lift targ. pos.", m_rightBucketLiftMotor.getTargetPosition());
-        m_opMode.telemetry.addData("right bucket lift cur. pos.", m_rightBucketLiftMotor.getCurrentPosition());
-
-        m_opMode.telemetry.addData("P", m_rightBucketLiftMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION).p);
-        m_opMode.telemetry.addData("I", m_rightBucketLiftMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION).i);
-        m_opMode.telemetry.addData("D", m_rightBucketLiftMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION).d);
-        m_opMode.telemetry.addData("F", m_rightBucketLiftMotor.getPIDFCoefficients(DcMotor.RunMode.RUN_TO_POSITION).f);
+//        m_opMode.telemetry.addData("bucket lift targ. pos.", getTargetPosition());
+//        m_opMode.telemetry.addData("bucket lift cur. pos.", getCurrentPosition());
+//
+//        m_opMode.telemetry.addData("right bucket lift targ. pos.", m_rightBucketLiftMotor.getTargetPosition());
+//        m_opMode.telemetry.addData("right bucket lift cur. pos.", m_rightBucketLiftMotor.getCurrentPosition());
     }
 }

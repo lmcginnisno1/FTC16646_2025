@@ -32,6 +32,6 @@ public class SUB_Climb extends SubsystemBase {
 
     @Override
     public void periodic(){
-        m_opMode.telemetry.addData("climb pos", m_climbMotor.getCurrentPosition());
+//        m_opMode.telemetry.addData("climb pos", m_climbMotor.getCurrentPosition());
     }
 }

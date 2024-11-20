@@ -59,7 +59,7 @@ public class SUB_IntakeSubSlide extends SubsystemBase {
 
     @Override
     public void periodic(){
-        m_opMode.telemetry.addData("current pos", getCurrentPosition());
-        m_opMode.telemetry.addData("target pos", getTargetPosition());
+//        m_opMode.telemetry.addData("current pos", getCurrentPosition());
+//        m_opMode.telemetry.addData("target pos", getTargetPosition());
     }
 }

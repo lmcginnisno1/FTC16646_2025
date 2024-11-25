@@ -51,10 +51,10 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
 
     // Define HSV color thresholds for each target color
     // These ranges may need to be adjusted based on your camera and lighting conditions
-    private Scalar lowerRed1 = new Scalar(0, 100, 100);
+    private Scalar lowerRed1 = new Scalar(0, 100, 20);
     private Scalar upperRed1 = new Scalar(10, 255, 255);
-    private Scalar lowerRed2 = new Scalar(160, 100, 100);
-    private Scalar upperRed2 = new Scalar(179, 255, 255);
+    private Scalar lowerRed2 = new Scalar(170, 70, 50);
+    private Scalar upperRed2 = new Scalar(180, 255, 255);
 
     private Scalar lowerBlue = new Scalar(100, 150, 0);
     private Scalar upperBlue = new Scalar(140, 255, 255);
@@ -125,12 +125,15 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
                 double area = Imgproc.contourArea(contour);
                 if (area > maxArea) {
                     Rect boundingRect = Imgproc.boundingRect(contour);
-
+            
                     // Calculate aspect ratio of the bounding rectangle
-                    double aspectRatio = boundingRect.width < boundingRect.height ? (double) boundingRect.width / boundingRect.height : (double) boundingRect.height / boundingRect.width;
-
+                    double aspectRatio = (double) boundingRect.width / boundingRect.height;
+            
+                    // Check for near-square blocks
+                    boolean isSquare = Math.abs(aspectRatio - 1.0) <= 0.1; // Allow for slight deviations
+            
                     // Check if the aspect ratio is within the acceptable range
-                    if (Math.abs(aspectRatio - targetAspectRatio) <= aspectRatioTolerance) {
+                    if (isSquare || Math.abs(aspectRatio - targetAspectRatio) <= aspectRatioTolerance) {
                         maxArea = area;
                         largestValidContour = contour;
                     }

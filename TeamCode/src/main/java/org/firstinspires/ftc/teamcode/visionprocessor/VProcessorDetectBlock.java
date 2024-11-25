@@ -141,7 +141,7 @@ public class VProcessorDetectBlock extends VisionProcessorBase {
             }
 
             // If a valid contour is found, compute its bounding rectangle and offset
-            if (largestValidContour != null && maxArea > 500) { // Adjust the area threshold as needed
+            if (largestValidContour != null && maxArea > 1500) { // Adjust the area threshold as needed
                 detectedRect = Imgproc.boundingRect(largestValidContour);
 
                 // Compute center of detected rectangle

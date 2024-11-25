@@ -18,7 +18,7 @@ public class SUB_SubmersibleIntake extends SubsystemBase {
         m_subIntakeServo = m_opMode.hardwareMap.get(CRServo.class, "SubIntakeServo");
         m_subIntakeServo.setPower(SubIntakeConstants.kIntakeOff);
         m_subBucketServo = m_opMode.hardwareMap.get(Servo.class, "SubBucketServo");
-//        m_subBucketServo.setPosition(SubIntakeConstants.kBucketHome);
+        m_subBucketServo.setPosition(SubIntakeConstants.kBucketHome);
     }
 
     public void setBucketPosition(double p_pos) {

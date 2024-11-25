@@ -77,8 +77,8 @@ public class Teleop_Field_Centric extends LinearOpMode {
           m_robot.drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
           m_robot.drivetrain.setDefaultCommand(new RR_MecanumDriveDefault(m_robot.drivetrain, m_driverOp,
                   m_toolOp, 0.0,0.01, m_robot.GlobalVariables));
-          m_robot.m_camera.setDefaultCommand(new CMD_CamDefault(m_robot.GlobalVariables, m_robot.m_camera,
-                  m_robot.m_blockDetect, m_robot.drivetrain, this));
+//          m_robot.m_camera.setDefaultCommand(new CMD_CamDefault(m_robot.GlobalVariables, m_robot.m_camera,
+//                  m_robot.m_blockDetect, m_robot.drivetrain, this));
           //button bindings and global variables initialization
           configureButtonBindings();
      }

@@ -15,7 +15,7 @@ public class SUB_IntakeSubSlide extends SubsystemBase {
         m_opMode = p_opMode;
         m_intakeSubSlide = m_opMode.hardwareMap.get(DcMotorEx.class, "submersibleSlide");
         m_intakeSubSlide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        m_intakeSubSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        m_intakeSubSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         m_intakeSubSlide.setTargetPosition(0);
         m_intakeSubSlide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         m_intakeSubSlide.setPower(1);
@@ -47,7 +47,7 @@ public class SUB_IntakeSubSlide extends SubsystemBase {
 
     public void startReset(){
         m_intakeSubSlide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        m_intakeSubSlide.setPower(-1);
+        m_intakeSubSlide.setPower(-0.5);
     }
 
     public void resetEncoder(){
@@ -59,7 +59,7 @@ public class SUB_IntakeSubSlide extends SubsystemBase {
 
     @Override
     public void periodic(){
-//        m_opMode.telemetry.addData("current pos", getCurrentPosition());
-//        m_opMode.telemetry.addData("target pos", getTargetPosition());
+        m_opMode.telemetry.addData("current pos", getCurrentPosition());
+        m_opMode.telemetry.addData("target pos", getTargetPosition());
     }
 }

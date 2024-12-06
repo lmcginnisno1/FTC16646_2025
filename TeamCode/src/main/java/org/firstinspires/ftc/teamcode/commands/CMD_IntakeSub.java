@@ -20,7 +20,7 @@ public class CMD_IntakeSub extends SequentialCommandGroup {
             ,new InstantCommand(()-> p_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketReceive))
             ,new CMD_SubmersibleInPosition(p_intakeSubSlide)
             ,new InstantCommand(()-> p_subIntake.setBucketPosition(Constants.SubIntakeConstants.kBucketTransfer))
-            ,new WaitCommand(1000)
+            ,new WaitCommand(1250)
             ,new InstantCommand(()-> p_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeReverse))
             ,new InstantCommand(()-> p_variables.setRobotState(GlobalVariables.RobotState.INTAKE))
         );

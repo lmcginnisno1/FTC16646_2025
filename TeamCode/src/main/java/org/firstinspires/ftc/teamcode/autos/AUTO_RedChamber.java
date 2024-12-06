@@ -2,19 +2,21 @@ package org.firstinspires.ftc.teamcode.autos;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.profile.VelocityConstraint;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Constants;
 import org.firstinspires.ftc.teamcode.GlobalVariables;
 import org.firstinspires.ftc.teamcode.Robot_Auto;
 import org.firstinspires.ftc.teamcode.commands.CMD_DeployChamber;
+import org.firstinspires.ftc.teamcode.commands.CMD_IntakeSub;
 import org.firstinspires.ftc.teamcode.commands.CMD_IntakeWall;
+import org.firstinspires.ftc.teamcode.commands.CMD_QuickDump;
 import org.firstinspires.ftc.teamcode.commands.CMD_ReadyToDeployChamber;
 import org.firstinspires.ftc.teamcode.commands.CMD_ReadyToIntakeWall;
 import org.firstinspires.ftc.teamcode.commands.CMD_ResetToHome;
+import org.firstinspires.ftc.teamcode.commands.CMD_StowSub;
+import org.firstinspires.ftc.teamcode.commands.CMD_SubmersibleInPosition;
 import org.firstinspires.ftc.teamcode.commands.RR_TrajectoryFollowerCommand;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -23,59 +25,71 @@ import org.firstinspires.ftc.teamcode.ftclib.command.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.ftclib.command.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.ftclib.command.WaitCommand;
 
-@Autonomous(name = "Red Chamber", group = "Auto Red", preselectTeleOp = "Teleop Red")
+@Autonomous(name = "Red Chamber", preselectTeleOp = "Teleop Red", group = "Auto Red")
 public class AUTO_RedChamber extends Robot_Auto {
     Trajectory m_placeChamberOne;
     Trajectory m_releaseChamber;
     Trajectory m_lineUpGroundSampleOne;
-    Trajectory m_strafeFrontSampleOne;
-    Trajectory m_pushSampleOne;
-    Trajectory m_backUpSampleOne;
-    Trajectory m_lineUpSampleTwo;
-    Trajectory m_intakeSpecimenOne;
+    Trajectory m_intakeWallSpecimenOne;
     Trajectory m_lineUpChamber;
     Trajectory m_splineToChamber;
-    Trajectory m_backUpSpecimenTwo;
+    Trajectory m_lineUpWallSpecimenTwo;
+    Trajectory m_intakeWallSpecimenTwo;
+    Trajectory m_splineToChamberTwo;
+    Trajectory m_placeChamberTwo;
+    Trajectory m_homeChamberTwo;
 
     @Override
     public void prebuildTasks() {
-        setStartingPose(new Pose2d(0, -63, Math.toRadians(90)));
+        setStartingPose(new Pose2d(6, -63, Math.toRadians(90)));
         m_placeChamberOne = m_robot.drivetrain.trajectoryBuilder(getStartingPose(), false)
-                .lineToLinearHeading(new Pose2d(0, -32, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(2, -32, Math.toRadians(90)))
                 .build();
+
         m_releaseChamber = m_robot.drivetrain.trajectoryBuilder(m_placeChamberOne.end(), true)
                 .back(6)
                 .build();
-        m_lineUpGroundSampleOne = m_robot.drivetrain.trajectoryBuilder(m_releaseChamber.end(), true)
-                .splineTo(new Vector2d(24, -48), Math.toRadians(0))
-                .splineTo(new Vector2d(32, -12), Math.toRadians(90))
+
+        m_lineUpGroundSampleOne = m_robot.drivetrain.trajectoryBuilder(m_releaseChamber.end(), false)
+                .lineToLinearHeading(new Pose2d(50, -46, Math.toRadians(-90)))
                 .build();
-        m_strafeFrontSampleOne = m_robot.drivetrain.trajectoryBuilder(m_lineUpGroundSampleOne.end(), false)
-                .strafeLeft(14)
+
+        m_intakeWallSpecimenOne = m_robot.drivetrain.trajectoryBuilder(m_lineUpGroundSampleOne.end(), false)
+                .lineToConstantHeading(new Vector2d(49, -64),
+                    SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_VEL, DriveConstants.TRACK_WIDTH)
+                    ,SampleMecanumDrive.getAccelerationConstraint(40))
                 .build();
-        m_pushSampleOne = m_robot.drivetrain.trajectoryBuilder(m_strafeFrontSampleOne.end(), false)
-                .lineToLinearHeading(new Pose2d(50, -60, Math.toRadians(-90)))
+
+        m_lineUpChamber = m_robot.drivetrain.trajectoryBuilder(m_intakeWallSpecimenOne.end(), true)
+                .splineTo(new Vector2d(56, -48), Math.toRadians(45))
                 .build();
-        m_backUpSampleOne = m_robot.drivetrain.trajectoryBuilder(m_pushSampleOne.end(), true)
-                .lineToLinearHeading(new Pose2d(44, -12, Math.toRadians(-90)))
+
+        m_splineToChamber = m_robot.drivetrain.trajectoryBuilder(m_lineUpChamber.end(), false)
+                .splineTo(new Vector2d(24, -48), Math.toRadians(180))
+                .splineTo(new Vector2d(-3, -31), Math.toRadians(90))
                 .build();
-        m_lineUpSampleTwo = m_robot.drivetrain.trajectoryBuilder(m_backUpSampleOne.end(), false)
-                .strafeLeft(14)
+
+        m_lineUpWallSpecimenTwo = m_robot.drivetrain.trajectoryBuilder(m_splineToChamber.end(), false)
+                .lineToLinearHeading(new Pose2d(36, -46, Math.toRadians(-90)))
                 .build();
-        m_intakeSpecimenOne = m_robot.drivetrain.trajectoryBuilder(m_lineUpSampleTwo.end(), false)
-                .lineToLinearHeading(new Pose2d(58, -64, Math.toRadians(-90)),
+
+        m_intakeWallSpecimenTwo = m_robot.drivetrain.trajectoryBuilder(m_lineUpWallSpecimenTwo.end(), false)
+                .lineToConstantHeading(new Vector2d(36, -64),
                         SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_VEL, DriveConstants.TRACK_WIDTH)
                         ,SampleMecanumDrive.getAccelerationConstraint(40))
                 .build();
-        m_lineUpChamber = m_robot.drivetrain.trajectoryBuilder(m_intakeSpecimenOne.end(), true)
-                .splineTo(new Vector2d(56, -48), Math.toRadians(45))
+
+        m_splineToChamberTwo = m_robot.drivetrain.trajectoryBuilder(m_lineUpWallSpecimenTwo.end(), false)
+                .lineToLinearHeading(new Pose2d(4, -46, Math.toRadians(90)))
                 .build();
-        m_splineToChamber = m_robot.drivetrain.trajectoryBuilder(m_lineUpChamber.end(), false)
-                .splineTo(new Vector2d(24, -48), Math.toRadians(180))
-                .splineTo(new Vector2d(-3, -28), Math.toRadians(90))
+
+        m_placeChamberTwo = m_robot.drivetrain.trajectoryBuilder(m_splineToChamberTwo.end(), false)
+                .forward(15)
                 .build();
-        m_backUpSpecimenTwo = m_robot.drivetrain.trajectoryBuilder(m_splineToChamber.end(), true)
-                .back(6)
+
+        m_homeChamberTwo = m_robot.drivetrain.trajectoryBuilder(m_placeChamberTwo.end(), false)
+//                .back(6)
+                .lineToConstantHeading(new Vector2d(33, -55))
                 .build();
     }
 
@@ -83,59 +97,94 @@ public class AUTO_RedChamber extends Robot_Auto {
     public SequentialCommandGroup buildTasks() {
         SequentialCommandGroup completeTasks = new SequentialCommandGroup();
         completeTasks.addCommands(
-                new InstantCommand(()-> GlobalVariables.bucketAuto = false)
-                ,placeChamberOne()
-                ,lineUpGroundSampleOne()
+            new InstantCommand(()-> GlobalVariables.bucketAuto = false)
+            ,preload()
+            ,groundSampleOne()
+            ,intakeWallSpecimenOne()
+            ,intakeWallSpecimenTwo()
         );
         m_robot.schedule(completeTasks);
         return completeTasks;
     }
 
-    SequentialCommandGroup placeChamberOne(){
-        SequentialCommandGroup cmds = new SequentialCommandGroup();
-        cmds.addCommands(
-                new ParallelCommandGroup(
-                        new CMD_ReadyToDeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
-                        ,new SequentialCommandGroup(
-                        new WaitCommand(500)
-                        ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_placeChamberOne)
-                )
-                )
-                ,new WaitCommand(500)
-                ,new InstantCommand(()-> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftDeployHighChamber))
-                ,new WaitCommand(250)
-                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_releaseChamber)
+    SequentialCommandGroup preload(){
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new CMD_ReadyToDeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
+                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_placeChamberOne)
+            )
+            ,new WaitCommand(250)
+            ,new InstantCommand(()-> m_robot.m_bucketLift.setTargetPosition(Constants.BucketLift.kLiftDeployHighChamber))
+            ,new WaitCommand(250)
+            ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_releaseChamber)
         );
-        return cmds;
     }
 
-    SequentialCommandGroup lineUpGroundSampleOne(){
-        SequentialCommandGroup cmds = new SequentialCommandGroup();
-        cmds.addCommands(
-                new ParallelCommandGroup(
-                    new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_lineUpGroundSampleOne)
-                    ,new CMD_ResetToHome(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_intakeSubSlide,
-                    m_robot.m_bucket, m_robot.m_subIntake)
+    SequentialCommandGroup groundSampleOne(){
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new SequentialCommandGroup(
+                    new CMD_ResetToHome(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_intakeSubSlide,
+                            m_robot.m_bucket, m_robot.m_subIntake)
+                    ,new InstantCommand(()-> m_robot.m_intakeSubSlide.setTargetPosition(150))
+                    ,new InstantCommand(()-> m_robot.m_subIntake.setBucketPosition(Constants.SubIntakeConstants.kBucketReadyToIntake))
                 )
-                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_strafeFrontSampleOne)
-                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_pushSampleOne)
-                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_backUpSampleOne)
-                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_lineUpSampleTwo)
-                ,new CMD_ReadyToIntakeWall(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_bucket)
-                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_intakeSpecimenOne)
-                ,new WaitCommand(500)
-                ,new CMD_IntakeWall(m_robot.GlobalVariables, m_robot.m_bucketLift)
-                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_lineUpChamber)
-                ,new ParallelCommandGroup(
-                    new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_splineToChamber)
-                    ,new CMD_ReadyToDeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
-                )
-                ,new WaitCommand(250)
-                ,new CMD_DeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
-                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_backUpSpecimenTwo)
-                ,new CMD_ResetToHome(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_intakeSubSlide,
-                    m_robot.m_bucket, m_robot.m_subIntake)
+                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_lineUpGroundSampleOne)
+            )
+            ,new InstantCommand(()-> m_robot.m_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOn))
+            ,new InstantCommand(()-> m_robot.m_subIntake.setBucketPosition(Constants.SubIntakeConstants.kBucketIntake))
+            ,new WaitCommand(250)
+            ,new InstantCommand(()-> m_robot.m_intakeSubSlide.setTargetPosition(275))
+            ,new CMD_SubmersibleInPosition(m_robot.m_intakeSubSlide)
+//            ,new InstantCommand(()-> m_robot.m_intakeSubSlide.setTargetPosition(550))
+//            ,new CMD_SubmersibleInPosition(m_robot.m_intakeSubSlide)
+            ,new WaitCommand(500)
+            ,new CMD_IntakeSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket)
+            ,new WaitCommand(500)
+            ,new CMD_StowSub(m_robot.GlobalVariables, m_robot.m_intakeSubSlide, m_robot.m_subIntake, m_robot.m_bucket)
+            ,new CMD_QuickDump(m_robot.GlobalVariables, m_robot.m_bucket)
         );
-        return cmds;
+    }
+
+    SequentialCommandGroup intakeWallSpecimenOne(){
+        return new SequentialCommandGroup(
+           new WaitCommand(750)
+           ,new ParallelCommandGroup(
+               new CMD_ReadyToIntakeWall(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_bucket)
+               ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_intakeWallSpecimenOne)
+           )
+           ,new WaitCommand(500)
+           ,new CMD_IntakeWall(m_robot.GlobalVariables, m_robot.m_bucketLift)
+           ,new WaitCommand(100)
+           ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_lineUpChamber)
+           ,new ParallelCommandGroup(
+               new CMD_ReadyToDeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
+               ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_splineToChamber)
+           )
+           ,new WaitCommand(500)
+           ,new CMD_DeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
+        );
+    }
+
+    SequentialCommandGroup intakeWallSpecimenTwo(){
+        return new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                new CMD_ReadyToIntakeWall(m_robot.GlobalVariables, m_robot.m_bucketLift, m_robot.m_bucket)
+                ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_lineUpWallSpecimenTwo)
+            )
+            ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_intakeWallSpecimenTwo)
+            ,new WaitCommand(100)
+            ,new ParallelCommandGroup(
+                new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_splineToChamberTwo)
+                ,new CMD_ReadyToDeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
+            )
+            ,new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_placeChamberTwo)
+            ,new CMD_DeployChamber(m_robot.GlobalVariables, m_robot.m_bucketLift)
+            ,new ParallelCommandGroup(
+                new RR_TrajectoryFollowerCommand(m_robot.drivetrain, m_homeChamberTwo)
+                ,new CMD_ResetToHome(m_robot.GlobalVariables, m_robot.m_bucketLift,
+                m_robot.m_intakeSubSlide, m_robot.m_bucket, m_robot.m_subIntake)
+            )
+        );
     }
 }

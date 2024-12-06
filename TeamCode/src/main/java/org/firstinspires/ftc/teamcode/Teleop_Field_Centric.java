@@ -23,11 +23,8 @@ public class Teleop_Field_Centric extends LinearOpMode {
      public RobotContainer m_robot;
      private GamepadEx m_driverOp;
      private GamepadEx m_toolOp;
-     private boolean m_setFieldCentric = false;
-     double m_startHeadingOffset = Math.toRadians(90);
 
      private static ElapsedTime m_runTime = new ElapsedTime();
-     private ElapsedTime m_releaseTimeout = new ElapsedTime();
 
      public void initialize() {
           telemetry.clearAll();
@@ -137,7 +134,7 @@ public class Teleop_Field_Centric extends LinearOpMode {
 
      public void setSide() {
           if(GlobalVariables.bucketAuto){
-               m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(135)));
+               m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(90)));
           }else{
                m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(0)));
           }

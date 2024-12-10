@@ -11,15 +11,12 @@ import org.firstinspires.ftc.teamcode.subsystems.SUB_Bucket;
 public class CMD_QuickDump extends SequentialCommandGroup {
     public CMD_QuickDump(GlobalVariables p_variables, SUB_Bucket p_bucket){
         addCommands(
-            new ConditionalCommand(
-                new SequentialCommandGroup(
-                    new InstantCommand(()-> p_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketDeploy))
-                    ,new WaitCommand(330)
-                    ,new InstantCommand(()-> p_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome))
-                )
-                ,new InstantCommand()
-                ,()-> p_variables.isRobotState(GlobalVariables.RobotState.HOME) || p_variables.isRobotState(GlobalVariables.RobotState.STOW)
+            new SequentialCommandGroup(
+                new InstantCommand(()-> p_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketDeploy))
+                ,new WaitCommand(330)
+                ,new InstantCommand(()-> p_bucket.setBucketServoPosition(Constants.BucketConstants.kBucketHome))
             )
+            ,new InstantCommand()
         );
     }
 }

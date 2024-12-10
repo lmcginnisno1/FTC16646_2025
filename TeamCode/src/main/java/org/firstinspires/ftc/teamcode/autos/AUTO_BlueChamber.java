@@ -25,8 +25,8 @@ import org.firstinspires.ftc.teamcode.ftclib.command.ParallelCommandGroup;
 import org.firstinspires.ftc.teamcode.ftclib.command.SequentialCommandGroup;
 import org.firstinspires.ftc.teamcode.ftclib.command.WaitCommand;
 
-@Autonomous(name = "Red Chamber", preselectTeleOp = "Teleop Red", group = "Auto Red")
-public class AUTO_RedChamber extends Robot_Auto {
+@Autonomous(name = "Blue Chamber", preselectTeleOp = "Teleop Blue", group = "Auto Blue")
+public class AUTO_BlueChamber extends Robot_Auto {
     Trajectory m_placeChamberOne;
     Trajectory m_releaseChamber;
     Trajectory m_lineUpGroundSampleOne;
@@ -66,7 +66,7 @@ public class AUTO_RedChamber extends Robot_Auto {
 
         m_splineToChamber = m_robot.drivetrain.trajectoryBuilder(m_lineUpChamber.end(), false)
                 .splineTo(new Vector2d(24, -48), Math.toRadians(180))
-                .splineTo(new Vector2d(0, -31), Math.toRadians(90))
+                .splineTo(new Vector2d(-3, -31), Math.toRadians(90))
                 .build();
 
         m_lineUpWallSpecimenTwo = m_robot.drivetrain.trajectoryBuilder(m_splineToChamber.end(), false)
@@ -89,7 +89,7 @@ public class AUTO_RedChamber extends Robot_Auto {
 
         m_homeChamberTwo = m_robot.drivetrain.trajectoryBuilder(m_placeChamberTwo.end(), false)
 //                .back(6)
-                .lineToConstantHeading(new Vector2d(37.5, -55))
+                .lineToConstantHeading(new Vector2d(33, -55))
                 .build();
     }
 
@@ -134,7 +134,7 @@ public class AUTO_RedChamber extends Robot_Auto {
             ,new InstantCommand(()-> m_robot.m_subIntake.setIntakeSpeed(Constants.SubIntakeConstants.kIntakeOn))
             ,new InstantCommand(()-> m_robot.m_subIntake.setBucketPosition(Constants.SubIntakeConstants.kBucketIntake))
             ,new WaitCommand(250)
-            ,new InstantCommand(()-> m_robot.m_intakeSubSlide.setTargetPosition(Constants.SubmersibleSlide.kSlideMaxExtend))
+            ,new InstantCommand(()-> m_robot.m_intakeSubSlide.setTargetPosition(275))
             ,new CMD_SubmersibleInPosition(m_robot.m_intakeSubSlide)
 //            ,new InstantCommand(()-> m_robot.m_intakeSubSlide.setTargetPosition(550))
 //            ,new CMD_SubmersibleInPosition(m_robot.m_intakeSubSlide)

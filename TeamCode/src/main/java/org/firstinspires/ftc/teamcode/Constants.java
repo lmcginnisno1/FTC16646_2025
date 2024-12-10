@@ -7,13 +7,13 @@ public class Constants {
         public static final double kBucketReceive = 0.675;//0.7
     }
     public static final class SubIntakeConstants{
-        public static final double kBucketHome = 0.25;//0.3
-        public static final double kBucketTransfer = 0.225;//0.22
-        public static final double kBucketReadyToIntake = 0.6;//0.65
-        public static final double kBucketIntake = 0.75;//.765
+        public static final double kBucketHome = 0.33;//0.25
+        public static final double kBucketTransfer = 0.315;//0.225
+        public static final double kBucketReadyToIntake = 0.6;//0.6
+        public static final double kBucketIntake = 0.75;//.75
         public static final double kIntakeOn = 1;
         public static final double kIntakeOff = 0;
-        public static final double kIntakeReverse = -0.25;
+        public static final double kIntakeReverse = -0.40;
         public static final double kIntakeTransfer = 0.1;
     }
     public static final class SubmersibleSlide{

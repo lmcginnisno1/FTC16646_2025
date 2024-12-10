@@ -8,7 +8,7 @@ public class Teleop_Field_Centric_Blue extends Teleop_Field_Centric{
     @Override
     public void setSide(){
         if(GlobalVariables.bucketAuto){
-            m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(-225)));
+            m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(90)));
         }else{
             m_robot.drivetrain.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(0)));
         }

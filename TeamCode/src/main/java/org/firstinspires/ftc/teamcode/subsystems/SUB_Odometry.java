@@ -17,11 +17,10 @@ public class SUB_Odometry {
           OTOS.setLinearUnit(DistanceUnit.INCH);
           OTOS.setAngularUnit(AngleUnit.RADIANS);
           //sensor offset from center of bot
-          SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, 0);
-          OTOS.setOffset(offset);
+          OTOS.setOffset(new SparkFunOTOS.Pose2D(0, -.85, 0));
           //scalar to correct for overshoot/undershoot
-          OTOS.setLinearScalar(1.0);
-          OTOS.setAngularScalar(1.0);
+          OTOS.setLinearScalar(1.03);//1.036
+          OTOS.setAngularScalar(0.994);
           //calibrate and reset position
           OTOS.calibrateImu();
           OTOS.resetTracking();

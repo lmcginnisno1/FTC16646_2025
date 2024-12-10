@@ -47,7 +47,13 @@ public class Teleop_Field_Centric extends LinearOpMode {
 
                m_robot.drivetrain.update();
                Pose2d poseEstimate = m_robot.drivetrain.getPoseEstimate();
-               telemetry.addData("ODM:","x[%3.2f] y[%3.2f] heading(%3.2f)", poseEstimate.getX(), poseEstimate.getY(), Math.toDegrees(poseEstimate.getHeading()));
+               telemetry.addData("ODM","x[%3.2f] y[%3.2f] heading(%3.2f)", poseEstimate.getX(),
+                       poseEstimate.getY(), Math.toDegrees(poseEstimate.getHeading()));
+
+               telemetry.addData("OTOS","x[%3.2f] y[%3.2f] heading(%3.2f)",
+                       m_robot.m_odometry.getPosition().getX(), m_robot.m_odometry.getPosition().getY(),
+                       Math.toDegrees(m_robot.m_odometry.getHeadingRad()));
+
                telemetry.addData("RobotState", m_robot.GlobalVariables.getRobotState().name());
                telemetry.addData("intake mode", m_robot.GlobalVariables.getIntakeState().name());
                telemetry.update();

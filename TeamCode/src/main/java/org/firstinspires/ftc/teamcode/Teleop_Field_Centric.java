@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.ftclib.gamepad.GamepadKeys;
 import org.firstinspires.ftc.teamcode.ftclib.command.Command;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "Teleop Red", group ="Teleop Red")
@@ -50,10 +51,6 @@ public class Teleop_Field_Centric extends LinearOpMode {
                telemetry.addData("ODM","x[%3.2f] y[%3.2f] heading(%3.2f)", poseEstimate.getX(),
                        poseEstimate.getY(), Math.toDegrees(poseEstimate.getHeading()));
 
-               telemetry.addData("OTOS","x[%3.2f] y[%3.2f] heading(%3.2f)",
-                       m_robot.m_odometry.getPosition().getX(), m_robot.m_odometry.getPosition().getY(),
-                       Math.toDegrees(m_robot.m_odometry.getHeadingRad()));
-
                telemetry.addData("RobotState", m_robot.GlobalVariables.getRobotState().name());
                telemetry.addData("intake mode", m_robot.GlobalVariables.getIntakeState().name());
                telemetry.update();
@@ -80,8 +77,6 @@ public class Teleop_Field_Centric extends LinearOpMode {
           m_robot.drivetrain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
           m_robot.drivetrain.setDefaultCommand(new RR_MecanumDriveDefault(m_robot.drivetrain, m_driverOp,
                   m_toolOp, 0.0,0.01, m_robot.GlobalVariables));
-//          m_robot.m_camera.setDefaultCommand(new CMD_CamDefault(m_robot.GlobalVariables, m_robot.m_camera,
-//                  m_robot.m_blockDetect, m_robot.drivetrain, this));
           //button bindings and global variables initialization
           configureButtonBindings();
      }
@@ -126,6 +121,9 @@ public class Teleop_Field_Centric extends LinearOpMode {
                   ,()-> m_robot.GlobalVariables.isRobotState(GlobalVariables.RobotState.READY_TO_INTAKE)
                   && m_robot.GlobalVariables.isIntakeState(GlobalVariables.IntakeState.SUBMERSIBLE)
           ));
+
+          AddButtonCommand(m_driverOp, GamepadKeys.Button.START, new InstantCommand(()->
+                  m_robot.m_odometry.resetPosition(new SparkFunOTOS.Pose2D(5, -63, Math.toRadians(180)))));
 
           //toolOp
           AddButtonCommand(m_toolOp, GamepadKeys.Button.A, new CMD_Climb(m_robot.GlobalVariables, m_robot.m_climb));

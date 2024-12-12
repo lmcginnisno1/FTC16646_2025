@@ -2,14 +2,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.ftclib.command.InstantCommand;
 import org.firstinspires.ftc.teamcode.ftclib.command.SequentialCommandGroup;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
-
-import java.util.concurrent.TimeUnit;
 
 public abstract class Robot_Auto extends LinearOpMode {
 
@@ -68,6 +67,8 @@ public abstract class Robot_Auto extends LinearOpMode {
      public void setStartingPose(Pose2d p_pose) {
           m_startingPose = p_pose;
           m_robot.drivetrain.setPoseEstimate(m_startingPose);
+          m_robot.m_odometry.resetPosition(new SparkFunOTOS.Pose2D(m_startingPose.getX(),
+                  m_startingPose.getY(), m_startingPose.getHeading()));
      }
 
      public Pose2d getStartingPose() {

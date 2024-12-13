@@ -28,7 +28,7 @@ public class AUTO_BlueBasket extends Robot_Auto {
         setStartingPose(new Pose2d(-41, -63.625, Math.toRadians(180)));
         //trajectory compilation, runs in init to avoid lag at start button press
         m_moveToBasket = m_robot.drivetrain.trajectoryBuilder(getStartingPose(), false)
-                .lineToLinearHeading(new Pose2d(-57, -57, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(-58, -58, Math.toRadians(-135)))
                 .build();
 
         m_intakeSampleTwo = m_robot.drivetrain.trajectoryBuilder(new Pose2d(m_moveToBasket.end().getX(),
@@ -37,7 +37,7 @@ public class AUTO_BlueBasket extends Robot_Auto {
                 .build();
 
         m_scoreSampleTwo = m_robot.drivetrain.trajectoryBuilder(m_intakeSampleTwo.end(), false)
-                .lineToLinearHeading(new Pose2d(-57, -57, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(-58, -58, Math.toRadians(-135)))
                 .build();
 
         m_intakeSampleThree = m_robot.drivetrain.trajectoryBuilder(new Pose2d(m_scoreSampleTwo.end().getX()
@@ -46,7 +46,7 @@ public class AUTO_BlueBasket extends Robot_Auto {
                 .build();
 
         m_scoreSampleThree = m_robot.drivetrain.trajectoryBuilder(m_intakeSampleThree.end(), false)
-                .lineToLinearHeading(new Pose2d(-57, -57, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(-58, -58, Math.toRadians(-135)))
                 .build();
 
         m_intakeSampleFour = m_robot.drivetrain.trajectoryBuilder(new Pose2d(m_scoreSampleThree.end().getX()
@@ -55,11 +55,11 @@ public class AUTO_BlueBasket extends Robot_Auto {
                 .build();
 
         m_scoreSampleFour = m_robot.drivetrain.trajectoryBuilder(m_intakeSampleFour.end(), false)
-                .lineToLinearHeading(new Pose2d(-57, -57, Math.toRadians(-135)))
+                .lineToLinearHeading(new Pose2d(-58, -58, Math.toRadians(-135)))
                 .build();
 
         m_park = m_robot.drivetrain.trajectoryBuilder(m_scoreSampleFour.end(), true)
-                .splineTo(new Vector2d(-24, -12), Math.toRadians(0))
+                .splineTo(new Vector2d(-24, -15), Math.toRadians(0))
                 .build();
     }
 

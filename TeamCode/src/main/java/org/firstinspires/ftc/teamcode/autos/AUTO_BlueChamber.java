@@ -41,7 +41,7 @@ public class AUTO_BlueChamber extends Robot_Auto {
 
     @Override
     public void prebuildTasks() {
-        setStartingPose(new Pose2d(6, -63, Math.toRadians(90)));
+        setStartingPose(new Pose2d(5, -63, Math.toRadians(90)));
         m_placeChamberOne = m_robot.drivetrain.trajectoryBuilder(getStartingPose(), false)
                 .lineToLinearHeading(new Pose2d(2, -32, Math.toRadians(90)))
                 .build();
@@ -51,11 +51,11 @@ public class AUTO_BlueChamber extends Robot_Auto {
                 .build();
 
         m_lineUpGroundSampleOne = m_robot.drivetrain.trajectoryBuilder(m_releaseChamber.end(), false)
-                .lineToLinearHeading(new Pose2d(50, -46, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(48, -46, Math.toRadians(-90)))
                 .build();
 
         m_intakeWallSpecimenOne = m_robot.drivetrain.trajectoryBuilder(m_lineUpGroundSampleOne.end(), false)
-                .lineToConstantHeading(new Vector2d(49, -64),
+                .lineToConstantHeading(new Vector2d(48, -64),
                         SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_VEL, DriveConstants.TRACK_WIDTH)
                         ,SampleMecanumDrive.getAccelerationConstraint(40))
                 .build();
@@ -66,21 +66,21 @@ public class AUTO_BlueChamber extends Robot_Auto {
 
         m_splineToChamber = m_robot.drivetrain.trajectoryBuilder(m_lineUpChamber.end(), false)
                 .splineTo(new Vector2d(24, -48), Math.toRadians(180))
-                .splineTo(new Vector2d(0, -31), Math.toRadians(90))
+                .splineTo(new Vector2d(-2, -31), Math.toRadians(90))
                 .build();
 
         m_lineUpWallSpecimenTwo = m_robot.drivetrain.trajectoryBuilder(m_splineToChamber.end(), false)
-                .lineToLinearHeading(new Pose2d(38, -46, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(36, -46, Math.toRadians(-90)))
                 .build();
 
         m_intakeWallSpecimenTwo = m_robot.drivetrain.trajectoryBuilder(m_lineUpWallSpecimenTwo.end(), false)
-                .lineToConstantHeading(new Vector2d(38, -64),
+                .lineToConstantHeading(new Vector2d(36, -64),
                         SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_VEL, DriveConstants.TRACK_WIDTH)
                         ,SampleMecanumDrive.getAccelerationConstraint(40))
                 .build();
 
         m_splineToChamberTwo = m_robot.drivetrain.trajectoryBuilder(m_lineUpWallSpecimenTwo.end(), false)
-                .lineToLinearHeading(new Pose2d(4, -46, Math.toRadians(90)))
+                .lineToLinearHeading(new Pose2d(5, -46, Math.toRadians(90)))
                 .build();
 
         m_placeChamberTwo = m_robot.drivetrain.trajectoryBuilder(m_splineToChamberTwo.end(), false)
@@ -88,7 +88,7 @@ public class AUTO_BlueChamber extends Robot_Auto {
                 .build();
 
         m_homeChamberTwo = m_robot.drivetrain.trajectoryBuilder(m_placeChamberTwo.end(), false)
-                .lineToConstantHeading(new Vector2d(37.5, -55))
+                .lineToConstantHeading(new Vector2d(40, -55))
                 .build();
     }
 

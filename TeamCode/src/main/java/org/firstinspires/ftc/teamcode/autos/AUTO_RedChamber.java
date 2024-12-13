@@ -51,11 +51,11 @@ public class AUTO_RedChamber extends Robot_Auto {
                 .build();
 
         m_lineUpGroundSampleOne = m_robot.drivetrain.trajectoryBuilder(m_releaseChamber.end(), false)
-                .lineToLinearHeading(new Pose2d(50, -46, Math.toRadians(-90)))
+                .lineToLinearHeading(new Pose2d(48, -46, Math.toRadians(-90)))
                 .build();
 
         m_intakeWallSpecimenOne = m_robot.drivetrain.trajectoryBuilder(m_lineUpGroundSampleOne.end(), false)
-                .lineToConstantHeading(new Vector2d(49, -64),
+                .lineToConstantHeading(new Vector2d(48, -64),
                     SampleMecanumDrive.getVelocityConstraint(40, DriveConstants.MAX_VEL, DriveConstants.TRACK_WIDTH)
                     ,SampleMecanumDrive.getAccelerationConstraint(40))
                 .build();
@@ -88,7 +88,7 @@ public class AUTO_RedChamber extends Robot_Auto {
                 .build();
 
         m_homeChamberTwo = m_robot.drivetrain.trajectoryBuilder(m_placeChamberTwo.end(), false)
-                .lineToConstantHeading(new Vector2d(37.5, -55))
+                .lineToConstantHeading(new Vector2d(40, -55))
                 .build();
     }
 

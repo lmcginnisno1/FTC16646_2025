@@ -23,14 +23,14 @@ public class Constants {
         public static final int kSlideTolerance = 10;
     }
     public static final class ClimbConstants{
-        public static final int kClimb = 6300;
+        public static final int kClimb = 6400;
     }
 
     public static final class BucketLift{
         public static final int kLiftHome = 5;
         public static final int kLiftReadyToIntakeWall = 60;
         public static final int kLiftIntakeWall = 120;
-        public static final int kLiftReadyToDeployHighBasket = 1080;
+        public static final int kLiftReadyToDeployHighBasket = 1150;
         public static final int kLiftReadyToDeployHighChamber = 550;
         public static final int kLiftDeployHighChamber = 400;
         public static final int kLiftTolerance = 5;
